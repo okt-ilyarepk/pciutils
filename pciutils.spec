@@ -1,11 +1,12 @@
 Name:		pciutils
-Version:	2.1.99.test3
-Release: 2
-Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-test3.tar.bz2
+Version:	2.1.99.test7
+Release:	1
+Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-test7.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-pciids.patch
 Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
+Patch4:		pciutils-error.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
@@ -31,11 +32,12 @@ This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
 %prep
-%setup -q -n pciutils-2.1.99-test3
+%setup -q -n pciutils-2.1.99-test7
 %patch0 -p1 -b .strip
 %patch1 -p1 -b .pciids
 %patch2 -p1 -b .scan
 %patch3 -p1 -b .pread
+%patch4 -p1 -b .error
 
 %build
 %ifarch i386
@@ -79,6 +81,10 @@ install lib/libpci_loader_a $RPM_BUILD_ROOT%{_libdir}/libpci_loader.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jul  9 2004 Bill Nottingham <notting@redhat.com> 2.1.99.test7-1
+- update to test7
+- fix segfault on some x86-64 boxen
+
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
