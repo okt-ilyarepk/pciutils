@@ -29,3 +29,14 @@
  	break;
        case 'd':
  	if (msg = pci_filter_parse_id(&filter, optarg))
+--- pciutils-2.1.10/Makefile.foo	2002-10-15 15:37:50.000000000 -0400
++++ pciutils-2.1.10/Makefile	2002-10-15 15:36:57.000000000 -0400
+@@ -36,7 +36,7 @@
+ all: lib lspci setpci lspci.8 setpci.8 pci.ids
+ 
+ lib: lib/config.h
+-	$(MAKE) -C lib all
++	CFLAGS="$(CFLAGS) -fPIC" $(MAKE) -C lib all
+ 
+ lib/config.h:
+ 	cd lib && ./configure $(PREFIX) $(VERSION)

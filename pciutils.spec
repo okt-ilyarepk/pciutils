@@ -1,10 +1,12 @@
 Name:		pciutils
 Version:	2.1.10
-Release: 2
+Release: 7
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-bufsiz.patch
 Patch3:		pciutils-pciids.patch
+Patch4:		pciutils-ppc64.patch
+Patch5:		pciutils-2.1.10-scan.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
@@ -32,20 +34,22 @@ devices connected to the PCI bus.
 %patch0 -p1 -b .strip
 %patch1 -p1 -b .bufsiz
 %patch3 -p1 -b .pciids
+%patch4 -p1 -b .ppc64
+%patch5 -p1 -b .scan
 
 %build
 make OPT="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,/usr/share,/usr/lib,/usr/include/pci}
+install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,%{_libdir},%{_includedir}/pci}
 
 install -s lspci setpci $RPM_BUILD_ROOT/sbin
 install lspci.8 setpci.8 $RPM_BUILD_ROOT%{_mandir}/man8
-install lib/libpci.a $RPM_BUILD_ROOT/usr/lib
-install lib/pci.h $RPM_BUILD_ROOT/usr/include/pci
-install lib/header.h $RPM_BUILD_ROOT/usr/include/pci
-install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
+install lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
+install lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
+install lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
+install lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
 
 %files
 %defattr(0644, root, root, 0755)
@@ -54,14 +58,33 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 %doc README ChangeLog pciutils.lsm
 
 %files devel
-%defattr(0644, root, root)
-/usr/lib/libpci.a
-/usr/include/pci/*.h
+%defattr(0644, root, root, 0755)
+%{_libdir}/libpci.a
+%{_includedir}/pci
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Feb 12 2003 Bill Nottingham <notting@redhat.com>
+- don't segfault when there's no pci bus (#84146)
+
+* Wed Jan 22 2003 Tim Powers <timp@redhat.com>
+- rebuilt
+
+* Thu Dec 05 2002 Elliot Lee <sopwith@redhat.com> 2.1.10-5
+- Add patch4 for ppc64. The basic rule seems to be that on any platform
+where it is possible to be running a 64-bit kernel, we need to always 
+print out 64-bit addresses.
+
+* Mon Nov  4 2002 Bill Nottingham <notting@redhat.com> 2.1.10-4
+- fix dir perms on /usr/include/pci
+
+* Tue Oct 15 2002 Bill Nottingham <notting@redhat.com> 2.1.10-3
+- use %%{_libdir}
+- own /usr/include/pci
+- build library with -fPIC
+
 * Thu Jul  8 2002 Bill Nottingham <notting@redhat.com> 2.1.10-2
 - don't build with -fomit-frame-pointer
 
