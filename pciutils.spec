@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.1.10
-Release: 7
+Release: 8
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-bufsiz.patch
@@ -66,6 +66,9 @@ install lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Wed Feb 12 2003 Bill Nottingham <notting@redhat.com>
 - don't segfault when there's no pci bus (#84146)
 
