@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.1.8
-Release: 19a
+Release: 20
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-werror.patch
 Patch1:		pciutils-pci.ids-update.patch
@@ -19,6 +19,7 @@ Patch14:        pciutils-i860.patch
 Patch15:        pciutils-serveraid.patch
 Patch16:	pciutils-lsi.patch
 Patch17:	pciutils-2.1.8-moremega.patch
+Patch18:	pciutils-2.1.8-e1000.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
@@ -60,9 +61,10 @@ devices connected to the PCI bus.
 %patch15 -p1 -b .serveraid
 %patch16 -p1 -b .lsi
 %patch17 -p1 -b .moremega
+%patch18 -p1 -b .e1000
 
 %build
-make OPT="$RPM_OPT_FLAGS -fPIC -DPIC"
+make OPT="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -92,8 +94,8 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Tue Feb 19 2002 Harald Hoyer <harald@redhat.com>
-- added -fPIC -DPIC
+* Mon May 28 2001 Bill Nottingham <notting@redhat.com>
+- add a couple of e1000 ids
 
 * Thu Mar 22 2001 Bill Nottingham <notting@redhat.com>
 - another megaraid id
