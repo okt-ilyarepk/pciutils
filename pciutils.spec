@@ -15,7 +15,7 @@ License:	GPL
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
-Requires:	kernel >= 2.2 hwdata
+Requires:	hwdata
 Summary: PCI bus related utilities.
 Group: Applications/System
 
@@ -73,6 +73,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jan 25 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-6
+- remove explicit kernel dep (#146153)
+
 * Fri Jan 21 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-5
 - fix domain bug (#138722, #144383)
 
