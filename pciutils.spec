@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.1.8
-Release: 20
+Release: 22
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-werror.patch
 Patch1:		pciutils-pci.ids-update.patch
@@ -20,6 +20,7 @@ Patch15:        pciutils-serveraid.patch
 Patch16:	pciutils-lsi.patch
 Patch17:	pciutils-2.1.8-moremega.patch
 Patch18:	pciutils-2.1.8-e1000.patch
+Patch19:	pciutils-2.1.8-2.4.6.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
@@ -62,6 +63,7 @@ devices connected to the PCI bus.
 %patch16 -p1 -b .lsi
 %patch17 -p1 -b .moremega
 %patch18 -p1 -b .e1000
+%patch19 -p1 -b .2.4.6
 
 %build
 make OPT="$RPM_OPT_FLAGS"
@@ -94,6 +96,13 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jul 17 2001 Bill Nottingham <notting@redhat.com>
+- add newline in printf in PCI-X patch (#49277)
+
+* Mon Jul  9 2001 Bill Nottingham <notting@redhat.com>
+- update broadcom patch
+- add new ids from 2.4.6
+
 * Mon May 28 2001 Bill Nottingham <notting@redhat.com>
 - add a couple of e1000 ids
 
