@@ -1,16 +1,24 @@
 Name:		pciutils
 Version:	2.1.8
-Release: 8
+Release: 19
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
-Patch: 		pciutils-werror.patch
+Patch0:		pciutils-werror.patch
+Patch1:		pciutils-pci.ids-update.patch
 Patch2:		pciutils-bufsiz.patch
-Patch3:		pciutils-ids.patch
 Patch4:		pciutils-qlogic.patch
 Patch5:		pciutils-pcix.patch
 Patch6:		pciutils-ids-2.patch
 Patch7:         pciutils-i815.patch
 Patch8:         pciutils-ati.patch
 Patch9:         pciutils-vortex.patch
+Patch10:	pciutils-megaraid.patch
+Patch11:	pciutils-2.4.0.diffs
+Patch12:	pciutils-broadcom.patch
+Patch13:	pciutils-various.ids.patch
+Patch14:        pciutils-i860.patch
+Patch15:        pciutils-serveraid.patch
+Patch16:	pciutils-lsi.patch
+Patch17:	pciutils-2.1.8-moremega.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
@@ -35,15 +43,23 @@ devices connected to the PCI bus.
 
 %prep
 %setup -q
-%patch -p1 -b .werror
+%patch0 -p1 -b .werror
+%patch1 -p1 -b .update
 %patch2 -p1 -b .bufsiz
-%patch3 -p1
-%patch4 -p1 
+%patch4 -p1 -b .qlogicids
 %patch5 -p1 -b .pcix
-%patch6 -p1
-%patch7 -p1 
-%patch8 -p1
+%patch6 -p1 -b .yetmoreids
+%patch7 -p1 -b .i815-ids
+%patch8 -p1 -b .ati-ids
 %patch9 -p1 -b .vortex
+%patch10 -p1 -b .megaraid
+%patch11 -p0 -b 2.4
+%patch12 -p1 -b .broadcom
+%patch13 -p1 -b .various
+%patch14 -p1 -b .i860
+%patch15 -p1 -b .serveraid
+%patch16 -p1 -b .lsi
+%patch17 -p1 -b .moremega
 
 %build
 make OPT="$RPM_OPT_FLAGS"
@@ -76,6 +92,39 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Mar 22 2001 Bill Nottingham <notting@redhat.com>
+- another megaraid id
+
+* Wed Mar 21 2001 Bill Nottingham <notting@redhat.com>
+- another megaraid id
+
+* Wed Mar 14 2001 Preston Brown <pbrown@redhat.com>
+- LSI SCSI PCI id
+
+* Wed Feb 21 2001 Nalin Dahyabhai <nalin@redhat.com>
+- fix formatting problems
+
+* Wed Feb 21 2001 Preston Brown <pbrown@redhat.com>
+- add IBM ServeRAID entries
+
+* Tue Feb 20 2001 Preston Brown <pbrown@redhat.com>
+- i860 entries.
+
+* Mon Feb 19 2001 Helge Deller <hdeller@redhat.de>
+- added various pci ids 
+
+* Fri Feb  2 2001 Bill Nottingham <notting@redhat.com>
+- fix mishap in fixing mishap
+
+* Thu Feb  1 2001 Bill Nottingham <notting@redhat.com>
+- fix apparent mishap in pci.ids update from kernel (#25520)
+
+* Tue Jan 23 2001 Bill Nottingham <notting@redhat.com>
+- pci.ids updates
+
+* Tue Dec 12 2000 Bill Nottingham <notting@redhat.com>
+- big pile of pci.ids updates
+
 * Tue Jul 25 2000 Nalin Dahyabhai <nalin@redhat.com>
 - clean up patches to not generate badly-formatted files
 
