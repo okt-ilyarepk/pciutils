@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.1.8
-Release: 19
+Release: 19a
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-werror.patch
 Patch1:		pciutils-pci.ids-update.patch
@@ -62,7 +62,7 @@ devices connected to the PCI bus.
 %patch17 -p1 -b .moremega
 
 %build
-make OPT="$RPM_OPT_FLAGS"
+make OPT="$RPM_OPT_FLAGS -fPIC -DPIC"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -92,6 +92,9 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Feb 19 2002 Harald Hoyer <harald@redhat.com>
+- added -fPIC -DPIC
+
 * Thu Mar 22 2001 Bill Nottingham <notting@redhat.com>
 - another megaraid id
 
