@@ -2,7 +2,7 @@
 
 Name:		pciutils
 Version:	2.1.99.%{testversion}
-Release:	3
+Release: 4
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-%{testversion}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-pciids.patch
@@ -17,9 +17,6 @@ ExclusiveOS: 	Linux
 Requires:	kernel >= 2.2 hwdata
 Summary: PCI bus related utilities.
 Group: Applications/System
-%ifarch i386
-BuildRequires: dietlibc
-%endif
 
 %description
 The pciutils package contains various utilities for inspecting and
@@ -45,12 +42,6 @@ devices connected to the PCI bus.
 %patch5 -p1 -b .devicetype
 
 %build
-%ifarch i386
-make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" CC="diet gcc" PREFIX="/usr"
-mv lib/libpci.a lib/libpci_loader_a
-make clean
-%endif
-
 make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr"
 
 %install
@@ -87,6 +78,9 @@ install lib/libpci_loader_a $RPM_BUILD_ROOT%{_libdir}/libpci_loader.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Nov 22 2004 Jeremy Katz <katzj@redhat.com> - 2.1.99.test8-4
+- don't use dietlibc on x86 anymore
+
 * Thu Sep  2 2004 Bill Nottingham <notting@redhat.com> 2.1.99.test8-3
 - change sysfs access for detecting devices who get fixed up in the
   kernel (#115522, #123802)
