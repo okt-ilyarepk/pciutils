@@ -1,29 +1,13 @@
+%define CVSDATE 20011017
+
 Name:		pciutils
 Version:	2.1.8
-Release: 24
+Release: 25
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
+Source1:	pci.ids-%{CVSDATE}
 Patch0:		pciutils-werror.patch
-Patch1:		pciutils-pci.ids-update.patch
-Patch2:		pciutils-bufsiz.patch
-Patch4:		pciutils-qlogic.patch
-Patch5:		pciutils-pcix.patch
-Patch6:		pciutils-ids-2.patch
-Patch7:         pciutils-i815.patch
-Patch8:         pciutils-ati.patch
-Patch9:         pciutils-vortex.patch
-Patch10:	pciutils-megaraid.patch
-Patch11:	pciutils-2.4.0.diffs
-Patch12:	pciutils-broadcom.patch
-Patch13:	pciutils-various.ids.patch
-Patch14:        pciutils-i860.patch
-Patch15:        pciutils-serveraid.patch
-Patch16:	pciutils-lsi.patch
-Patch17:	pciutils-2.1.8-moremega.patch
-Patch18:	pciutils-2.1.8-e1000.patch
-Patch19:	pciutils-2.1.8-2.4.6.patch
-Patch20:	pciutils-i845.patch
-Patch21:	pciutils-2.1.8-2.4.7.patch
-Patch22:	pciutils-2.1.8-bcm5820.patch
+Patch1:		pciutils-bufsiz.patch
+Patch2:		pciutils-pcix.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
@@ -49,29 +33,8 @@ devices connected to the PCI bus.
 %prep
 %setup -q
 %patch0 -p1 -b .werror
-%patch1 -p1 -b .update
-%patch2 -p1 -b .bufsiz
-%patch4 -p1 -b .qlogicids
-%patch5 -p1 -b .pcix
-%patch6 -p1 -b .yetmoreids
-%patch7 -p1 -b .i815-ids
-%patch8 -p1 -b .ati-ids
-%patch9 -p1 -b .vortex
-%patch10 -p1 -b .megaraid
-%patch11 -p0 -b 2.4
-%patch12 -p1 -b .broadcom
-%patch13 -p1 -b .various
-%patch14 -p1 -b .i860
-%patch15 -p1 -b .serveraid
-%patch16 -p1 -b .lsi
-%patch17 -p1 -b .moremega
-%patch18 -p1 -b .e1000
-%patch19 -p1 -b .2.4.6
-%patch20 -p1 -b .i845
-%patch21 -p0 -b .2.4.7
-%patch22 -p1 -b .bmc5820
-
-%build
+%patch1 -p1 -b .bufsiz
+%patch2 -p1 -b .pcix
 make OPT="$RPM_OPT_FLAGS"
 
 %install
@@ -80,7 +43,7 @@ install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,/usr/share,/usr/lib,/usr/includ
 
 install -s lspci setpci $RPM_BUILD_ROOT/sbin
 install lspci.8 setpci.8 $RPM_BUILD_ROOT%{_mandir}/man8
-install pci.ids $RPM_BUILD_ROOT/usr/share
+install %{SOURCE1} $RPM_BUILD_ROOT/usr/share/pci.ids
 install lib/libpci.a $RPM_BUILD_ROOT/usr/lib
 install lib/pci.h $RPM_BUILD_ROOT/usr/include/pci
 install lib/header.h $RPM_BUILD_ROOT/usr/include/pci
@@ -102,6 +65,9 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Oct 17 2001 Bill Nottingham <notting@redhat.com>
+- dump all the patches, ship pci.ids direct out of sourceforge CVS
+
 * Wed Sep 26 2001 Bill Nottingham <notting@redhat.com>
 - broadcom bcm5820 id (#53592)
 
