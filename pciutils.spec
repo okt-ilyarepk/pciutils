@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.1.8
-Release: 22
+Release: 23
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-werror.patch
 Patch1:		pciutils-pci.ids-update.patch
@@ -21,19 +21,21 @@ Patch16:	pciutils-lsi.patch
 Patch17:	pciutils-2.1.8-moremega.patch
 Patch18:	pciutils-2.1.8-e1000.patch
 Patch19:	pciutils-2.1.8-2.4.6.patch
+Patch20:	pciutils-i845.patch
+Patch21:	pciutils-2.1.8-2.4.7.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
 ExcludeArch:	armv4l
 Requires:	kernel >= 2.2
-Summary: Linux PCI utilities.
+Summary: PCI bus related utilities.
 Group: Applications/System
 
 %description
-This package contains various utilities for inspecting and setting
-devices connected to the PCI bus. The utilities provided require
-kernel version 2.1.82 or newer (supporting the /proc/bus/pci
-interface).
+The pciutils package contains various utilities for inspecting and
+setting devices connected to the PCI bus. The utilities provided
+require kernel version 2.1.82 or newer (which support the
+/proc/bus/pci interface).
 
 %package devel
 Summary: Linux PCI development library.
@@ -64,6 +66,8 @@ devices connected to the PCI bus.
 %patch17 -p1 -b .moremega
 %patch18 -p1 -b .e1000
 %patch19 -p1 -b .2.4.6
+%patch20 -p1 -b .i845
+%patch21 -p0 -b .2.4.7
 
 %build
 make OPT="$RPM_OPT_FLAGS"
@@ -96,6 +100,9 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Aug 10 2001 Bill Nottingham <notting@redhat.com>
+- more ids
+
 * Tue Jul 17 2001 Bill Nottingham <notting@redhat.com>
 - add newline in printf in PCI-X patch (#49277)
 
