@@ -2,7 +2,7 @@
 
 Name:		pciutils
 Version:	2.1.99.%{testversion}
-Release: 	6
+Release: 	7
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-%{testversion}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-pciids.patch
@@ -73,6 +73,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Mar  2 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-7
+- FC4. GCC 4. fore!
+
 * Tue Jan 25 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-6
 - remove explicit kernel dep (#146153)
 
