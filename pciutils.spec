@@ -1,10 +1,9 @@
 Name:		pciutils
-Version:	2.1.9
-Release:	2
+Version:	2.1.10
+Release: 1
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
-Patch0:		pciutils-werror.patch
+Patch0:		pciutils-strip.patch
 Patch1:		pciutils-bufsiz.patch
-Patch2:		pciutils-pcix.patch
 Patch3:		pciutils-pciids.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
@@ -30,9 +29,8 @@ devices connected to the PCI bus.
 
 %prep
 %setup -q
-%patch0 -p1 -b .werror
+%patch0 -p1 -b .strip
 %patch1 -p1 -b .bufsiz
-%patch2 -p1 -b .pcix
 %patch3 -p1 -b .pciids
 
 %build
@@ -64,6 +62,18 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Jun 24 2002 Bill Nottingham <notting@redhat.com> 2.1.10-1
+- update to 2.1.10
+
+* Fri Jun 21 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Mon Jun 17 2002 Bill Nottingham <notting@redhat.com> 2.1.9-4
+- don't forcibly strip binaries
+
+* Thu May 23 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
 * Fri Feb 22 2002 Bill Nottingham <notting@redhat.com>
 - rebuild
 

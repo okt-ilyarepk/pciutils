@@ -1,0 +1,11 @@
+--- pciutils-2.1.10/Makefile.werror	Tue Jun 25 00:25:40 2002
++++ pciutils-2.1.10/Makefile	Tue Jun 25 00:27:21 2002
+@@ -59,7 +59,7 @@
+ install: all
+ # -c is ignored on Linux, but required on FreeBSD
+ 	$(DIRINSTALL) -m 755 $(ROOT)/sbin $(PREFIX)/share $(MANDIR)/man8
+-	$(INSTALL) -c -m 755 -s lspci setpci $(ROOT)/sbin
++	$(INSTALL) -c -m 755 lspci setpci $(ROOT)/sbin
+ 	if [ ! -f $(PREFIX)/share/pci.ids -o pci.ids -nt $(PREFIX)/share/pci.ids ] ; then \
+ 		$(INSTALL) -c -m 644 pci.ids $(PREFIX)/share ; \
+ 	elif [ -f $(PREFIX)/share/pci.ids ] ; then \
