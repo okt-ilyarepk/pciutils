@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.1.10
-Release: 1
+Release: 2
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-bufsiz.patch
@@ -62,6 +62,9 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Jul  8 2002 Bill Nottingham <notting@redhat.com> 2.1.10-2
+- don't build with -fomit-frame-pointer
+
 * Mon Jun 24 2002 Bill Nottingham <notting@redhat.com> 2.1.10-1
 - update to 2.1.10
 
