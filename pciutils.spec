@@ -2,14 +2,16 @@
 
 Name:		pciutils
 Version:	2.1.99.%{testversion}
-Release:	2
+Release:	3
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-%{testversion}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-pciids.patch
 Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
 Patch4:		pciutils-typo.patch
+Patch5:		pciutils-devicetype.patch
 License:	GPL
+URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
 Requires:	kernel >= 2.2 hwdata
@@ -40,6 +42,7 @@ devices connected to the PCI bus.
 %patch2 -p1 -b .scan
 %patch3 -p1 -b .pread
 %patch4 -p1 -b .typo
+%patch5 -p1 -b .devicetype
 
 %build
 %ifarch i386
@@ -84,6 +87,10 @@ install lib/libpci_loader_a $RPM_BUILD_ROOT%{_libdir}/libpci_loader.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Sep  2 2004 Bill Nottingham <notting@redhat.com> 2.1.99.test8-3
+- change sysfs access for detecting devices who get fixed up in the
+  kernel (#115522, #123802)
+
 * Tue Aug 31 2004 Bill Nottingham <notting@redhat.com> 2.1.99.test8-2
 - update to test8
 - fix headers
