@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.1.8
-Release: 23
+Release: 24
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-werror.patch
 Patch1:		pciutils-pci.ids-update.patch
@@ -23,6 +23,7 @@ Patch18:	pciutils-2.1.8-e1000.patch
 Patch19:	pciutils-2.1.8-2.4.6.patch
 Patch20:	pciutils-i845.patch
 Patch21:	pciutils-2.1.8-2.4.7.patch
+Patch22:	pciutils-2.1.8-bcm5820.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
@@ -68,6 +69,7 @@ devices connected to the PCI bus.
 %patch19 -p1 -b .2.4.6
 %patch20 -p1 -b .i845
 %patch21 -p0 -b .2.4.7
+%patch22 -p1 -b .bmc5820
 
 %build
 make OPT="$RPM_OPT_FLAGS"
@@ -100,6 +102,9 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Sep 26 2001 Bill Nottingham <notting@redhat.com>
+- broadcom bcm5820 id (#53592)
+
 * Fri Aug 10 2001 Bill Nottingham <notting@redhat.com>
 - more ids
 
