@@ -1,18 +1,16 @@
-%define CVSDATE 20011017
-
 Name:		pciutils
-Version:	2.1.8
-Release: 25
+Version:	2.1.9
+Release:	2
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
-Source1:	pci.ids-%{CVSDATE}
 Patch0:		pciutils-werror.patch
 Patch1:		pciutils-bufsiz.patch
 Patch2:		pciutils-pcix.patch
+Patch3:		pciutils-pciids.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
 ExcludeArch:	armv4l
-Requires:	kernel >= 2.2
+Requires:	kernel >= 2.2 hwdata
 Summary: PCI bus related utilities.
 Group: Applications/System
 
@@ -35,6 +33,9 @@ devices connected to the PCI bus.
 %patch0 -p1 -b .werror
 %patch1 -p1 -b .bufsiz
 %patch2 -p1 -b .pcix
+%patch3 -p1 -b .pciids
+
+%build
 make OPT="$RPM_OPT_FLAGS"
 
 %install
@@ -43,7 +44,6 @@ install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,/usr/share,/usr/lib,/usr/includ
 
 install -s lspci setpci $RPM_BUILD_ROOT/sbin
 install lspci.8 setpci.8 $RPM_BUILD_ROOT%{_mandir}/man8
-install %{SOURCE1} $RPM_BUILD_ROOT/usr/share/pci.ids
 install lib/libpci.a $RPM_BUILD_ROOT/usr/lib
 install lib/pci.h $RPM_BUILD_ROOT/usr/include/pci
 install lib/header.h $RPM_BUILD_ROOT/usr/include/pci
@@ -51,9 +51,8 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 
 %files
 %defattr(0644, root, root, 0755)
-%attr(0644, root, man) %{_mandir}/man8/*
+%{_mandir}/man8/*
 %attr(0755, root, root) /sbin/*
-%config /usr/share/pci.ids
 %doc README ChangeLog pciutils.lsm
 
 %files devel
@@ -65,6 +64,18 @@ install lib/config.h $RPM_BUILD_ROOT/usr/include/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Feb 22 2002 Bill Nottingham <notting@redhat.com>
+- rebuild
+
+* Wed Jan 30 2002 Bill Nottingham <notting@redhat.com>
+- require hwdata now that pci.ids is there
+
+* Wed Jan 09 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Sun Dec 30 2001 Florian La Roche <Florian.LaRoche@redhat.de>
+- man page is now owned by root
+
 * Wed Oct 17 2001 Bill Nottingham <notting@redhat.com>
 - dump all the patches, ship pci.ids direct out of sourceforge CVS
 
