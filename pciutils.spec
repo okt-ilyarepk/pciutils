@@ -56,10 +56,6 @@ install lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
 install lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
 install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 
-%ifarch i386
-install lib/libpci_loader_a $RPM_BUILD_ROOT%{_libdir}/libpci_loader.a
-%endif
-
 %files
 %defattr(0644, root, root, 0755)
 %{_mandir}/man8/*
@@ -69,9 +65,6 @@ install lib/libpci_loader_a $RPM_BUILD_ROOT%{_libdir}/libpci_loader.a
 %files devel
 %defattr(0644, root, root, 0755)
 %{_libdir}/libpci.a
-%ifarch i386
-%{_libdir}/libpci_loader.a
-%endif
 %{_includedir}/pci
 
 %clean
