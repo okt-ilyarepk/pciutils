@@ -2,7 +2,7 @@
 
 Name:		pciutils
 Version:	2.1.99.%{testversion}
-Release:	1
+Release:	2
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-%{testversion}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-pciids.patch
@@ -60,6 +60,7 @@ install lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
 install lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
 install lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
 install lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
+install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 
 %ifarch i386
 install lib/libpci_loader_a $RPM_BUILD_ROOT%{_libdir}/libpci_loader.a
@@ -83,8 +84,9 @@ install lib/libpci_loader_a $RPM_BUILD_ROOT%{_libdir}/libpci_loader.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Tue Aug 31 2004 Bill Nottingham <notting@redhat.com> 2.1.99.test8-1
+* Tue Aug 31 2004 Bill Nottingham <notting@redhat.com> 2.1.99.test8-2
 - update to test8
+- fix headers
 
 * Fri Jul  9 2004 Bill Nottingham <notting@redhat.com> 2.1.99.test7-1
 - update to test7
