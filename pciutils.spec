@@ -2,7 +2,7 @@
 
 Name:		pciutils
 Version:	2.1.99.%{testversion}
-Release: 4
+Release: 	5
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-%{testversion}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-pciids.patch
@@ -10,6 +10,7 @@ Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
 Patch4:		pciutils-typo.patch
 Patch5:		pciutils-devicetype.patch
+Patch6:		pciutils-domain.patch
 License:	GPL
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
@@ -40,6 +41,7 @@ devices connected to the PCI bus.
 %patch3 -p1 -b .pread
 %patch4 -p1 -b .typo
 %patch5 -p1 -b .devicetype
+%patch6 -p1 -b .domain
 
 %build
 make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr"
@@ -71,6 +73,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 21 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-5
+- fix domain bug (#138722, #144383)
+
 * Mon Nov 22 2004 Jeremy Katz <katzj@redhat.com> - 2.1.99.test8-4
 - don't use dietlibc on x86 anymore
 
