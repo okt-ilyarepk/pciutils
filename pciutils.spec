@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.1.99.test3
-Release: 1.1
+Release: 2
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-test3.tar.bz2
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-pciids.patch
@@ -79,6 +79,9 @@ install lib/libpci_loader_a $RPM_BUILD_ROOT%{_libdir}/libpci_loader.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Tue Mar 02 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
