@@ -1,15 +1,11 @@
 Name:		pciutils
-Version:	2.1.11
-Release:	4
-Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
+Version:	2.1.99.test3
+Release: 1.1
+Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-test3.tar.bz2
 Patch0:		pciutils-strip.patch
-Patch1:		pciutils-bufsiz.patch
-Patch3:		pciutils-pciids.patch
-Patch4:		pciutils-ppc64.patch
-Patch5:		pciutils-2.1.10-scan.patch
-Patch6:		pciutils-sysfs.diff
-Patch7: 	pciutils-havepread.patch
-Patch8:		pciutils-sysfs-err.patch
+Patch1:		pciutils-pciids.patch
+Patch2:		pciutils-2.1.10-scan.patch
+Patch3: 	pciutils-havepread.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
@@ -35,24 +31,20 @@ This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
 %prep
-%setup -q
+%setup -q -n pciutils-2.1.99-test3
 %patch0 -p1 -b .strip
-%patch1 -p1 -b .bufsiz
-%patch3 -p1 -b .pciids
-%patch4 -p1 -b .ppc64
-%patch5 -p1 -b .scan
-%patch6 -p1 -b .sysfs
-%patch7 -p1 -b .pread
-%patch8 -p1 -b .err
+%patch1 -p1 -b .pciids
+%patch2 -p1 -b .scan
+%patch3 -p1 -b .pread
 
 %build
 %ifarch i386
-make OPT="$RPM_OPT_FLAGS" CC="diet gcc" PREFIX="/usr"
+make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" CC="diet gcc" PREFIX="/usr"
 mv lib/libpci.a lib/libpci_loader_a
 make clean
 %endif
 
-make OPT="$RPM_OPT_FLAGS" PREFIX="/usr"
+make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -87,6 +79,12 @@ install lib/libpci_loader_a $RPM_BUILD_ROOT%{_libdir}/libpci_loader.a
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Mar 02 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Mon Dec  8 2003 Bill Nottingham <notting@redhat.com> 2.1.11-4
 - fix paths for pci.ids, etc. (#111665)
 
