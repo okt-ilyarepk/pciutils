@@ -1,19 +1,24 @@
 Name:		pciutils
-Version:	2.1.10
-Release: 8
-Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
+Version:	2.1.11
+Release:	4
+Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.bz2
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-bufsiz.patch
 Patch3:		pciutils-pciids.patch
 Patch4:		pciutils-ppc64.patch
 Patch5:		pciutils-2.1.10-scan.patch
+Patch6:		pciutils-sysfs.diff
+Patch7: 	pciutils-havepread.patch
+Patch8:		pciutils-sysfs-err.patch
 License:	GPL
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
 ExclusiveOS: 	Linux
-ExcludeArch:	armv4l
 Requires:	kernel >= 2.2 hwdata
 Summary: PCI bus related utilities.
 Group: Applications/System
+%ifarch i386
+BuildRequires: dietlibc
+%endif
 
 %description
 The pciutils package contains various utilities for inspecting and
@@ -36,9 +41,18 @@ devices connected to the PCI bus.
 %patch3 -p1 -b .pciids
 %patch4 -p1 -b .ppc64
 %patch5 -p1 -b .scan
+%patch6 -p1 -b .sysfs
+%patch7 -p1 -b .pread
+%patch8 -p1 -b .err
 
 %build
-make OPT="$RPM_OPT_FLAGS"
+%ifarch i386
+make OPT="$RPM_OPT_FLAGS" CC="diet gcc" PREFIX="/usr"
+mv lib/libpci.a lib/libpci_loader_a
+make clean
+%endif
+
+make OPT="$RPM_OPT_FLAGS" PREFIX="/usr"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -51,6 +65,10 @@ install lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
 install lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
 install lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
 
+%ifarch i386
+install lib/libpci_loader_a $RPM_BUILD_ROOT%{_libdir}/libpci_loader.a
+%endif
+
 %files
 %defattr(0644, root, root, 0755)
 %{_mandir}/man8/*
@@ -60,12 +78,29 @@ install lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
 %files devel
 %defattr(0644, root, root, 0755)
 %{_libdir}/libpci.a
+%ifarch i386
+%{_libdir}/libpci_loader.a
+%endif
 %{_includedir}/pci
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Dec  8 2003 Bill Nottingham <notting@redhat.com> 2.1.11-4
+- fix paths for pci.ids, etc. (#111665)
+
+* Tue Nov 25 2003 Bill Nottingham <notting@redhat.com> 2.1.11-3
+- remove a few calls to ->error() in the sysfs code
+
+* Fri Nov 21 2003 Jeremy Katz <katzj@redhat.com> 2.1.11-2
+- build a diet libpci_loader.a on i386
+- always assume pread exists, it does with diet and all vaguely recent glibc
+
+* Fri Nov 21 2003 Bill Nottingham <notting@redhat.com> 2.1.11-1
+- update to 2.1.11
+- add patch for sysfs & pci domains support (<willy@debian.org>)
+
 * Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
