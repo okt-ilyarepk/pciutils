@@ -11,6 +11,7 @@ Patch3: 	pciutils-havepread.patch
 Patch4:		pciutils-typo.patch
 Patch5:		pciutils-devicetype.patch
 Patch6:		pciutils-domain.patch
+Patch7:		pciutils-2.1.99-gcc4.patch
 License:	GPL
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
@@ -42,6 +43,7 @@ devices connected to the PCI bus.
 %patch4 -p1 -b .typo
 %patch5 -p1 -b .devicetype
 %patch6 -p1 -b .domain
+%patch7 -p1 -b .glibcmacros
 
 %build
 make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr"
@@ -73,6 +75,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Mar 14 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-8
+- add patch for glibc macros (#151032, <redhat-bugzilla@linuxnetz.de>)
+
 * Wed Mar  2 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-7
 - FC4. GCC 4. fore!
 
