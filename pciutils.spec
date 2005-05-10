@@ -2,7 +2,7 @@
 
 Name:		pciutils
 Version:	2.1.99.%{testversion}
-Release: 	8
+Release: 	9
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-%{testversion}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-pciids.patch
@@ -52,7 +52,7 @@ make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr"
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,%{_libdir},%{_includedir}/pci}
 
-install -s lspci setpci $RPM_BUILD_ROOT/sbin
+install lspci setpci $RPM_BUILD_ROOT/sbin
 install lspci.8 setpci.8 $RPM_BUILD_ROOT%{_mandir}/man8
 install lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
 install lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
@@ -75,6 +75,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue May 10 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-9
+- fix debuginfo generation
+
 * Mon Mar 14 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-8
 - add patch for glibc macros (#151032, <redhat-bugzilla@linuxnetz.de>)
 

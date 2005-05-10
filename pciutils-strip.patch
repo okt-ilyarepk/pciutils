@@ -18,3 +18,14 @@
  
  force:
  
+--- pciutils-2.1.99-test8/Makefile.foo	2005-05-10 15:24:45.000000000 -0400
++++ pciutils-2.1.99-test8/Makefile	2005-05-10 15:24:50.000000000 -0400
+@@ -65,7 +65,7 @@
+ install: all
+ # -c is ignored on Linux, but required on FreeBSD
+ 	$(DIRINSTALL) -m 755 $(SBINDIR) $(SHAREDIR) $(MANDIR)/man8
+-	$(INSTALL) -c -m 755 -s lspci setpci $(SBINDIR)
++	$(INSTALL) -c -m 755 lspci setpci $(SBINDIR)
+ 	$(INSTALL) -c -m 755 update-pciids $(SBINDIR)
+ 	$(INSTALL) -c -m 644 pci.ids $(SHAREDIR)
+ 	$(INSTALL) -c -m 644 lspci.8 setpci.8 update-pciids.8 $(MANDIR)/man8
