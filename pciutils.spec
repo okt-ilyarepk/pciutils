@@ -12,6 +12,7 @@ Patch4:		pciutils-typo.patch
 Patch5:		pciutils-devicetype.patch
 Patch6:		pciutils-domain.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
+Patch8:		pciutils-x86_64.patch
 License:	GPL
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
@@ -44,6 +45,7 @@ devices connected to the PCI bus.
 %patch5 -p1 -b .devicetype
 %patch6 -p1 -b .domain
 %patch7 -p1 -b .glibcmacros
+%patch8 -p1 -b .x86_64
 
 %build
 make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr"
@@ -75,6 +77,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu May 19 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-10
+- allow 64-bit addresses on x86_64 (#158217, <Matt_Domsch@dell.com>)
+
 * Tue May 10 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-9
 - fix debuginfo generation
 
