@@ -2,7 +2,7 @@
 
 Name:		pciutils
 Version:	2.1.99.%{testversion}
-Release: 	10
+Release: 10.1
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-%{testversion}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1:		pciutils-pciids.patch
@@ -77,6 +77,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt
+
 * Thu May 19 2005 Bill Nottingham <notting@redhat.com> - 2.1.99.test8-10
 - allow 64-bit addresses on x86_64 (#158217, <Matt_Domsch@dell.com>)
 
