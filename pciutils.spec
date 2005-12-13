@@ -1,18 +1,12 @@
-%define testversion test8
-
 Name:		pciutils
-Version:	2.1.99.%{testversion}
-Release: 10.1
-Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/alpha/%{name}-2.1.99-%{testversion}.tar.gz
+Version:	2.2.1
+Release: 	1
+Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
-Patch1:		pciutils-pciids.patch
 Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
-Patch4:		pciutils-typo.patch
 Patch5:		pciutils-devicetype.patch
-Patch6:		pciutils-domain.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
-Patch8:		pciutils-x86_64.patch
 License:	GPL
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
@@ -36,19 +30,16 @@ This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
 %prep
-%setup -q -n pciutils-2.1.99-%{testversion}
+%setup -q -n pciutils-%{version}
 %patch0 -p1 -b .strip
-%patch1 -p1 -b .pciids
 %patch2 -p1 -b .scan
 %patch3 -p1 -b .pread
-%patch4 -p1 -b .typo
 %patch5 -p1 -b .devicetype
-%patch6 -p1 -b .domain
 %patch7 -p1 -b .glibcmacros
-%patch8 -p1 -b .x86_64
 
 %build
-make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr"
+make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdata"
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
