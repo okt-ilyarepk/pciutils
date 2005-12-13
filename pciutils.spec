@@ -68,6 +68,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Dec 13 2005 Bill Nottingham <notting@redhat.com> - 2.2.1-1
+- update to 2.2.1, adjust patches
+
 * Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
 - rebuilt
 
