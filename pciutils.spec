@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.1
-Release: 	1
+Release: 	1.1
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch2:		pciutils-2.1.10-scan.patch
@@ -68,6 +68,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 2.2.1-1.1
+- rebuilt for new gcc4.1 snapshot and glibc changes
+
 * Tue Dec 13 2005 Bill Nottingham <notting@redhat.com> - 2.2.1-1
 - update to 2.2.1, adjust patches
 
