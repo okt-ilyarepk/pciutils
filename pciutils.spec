@@ -1,11 +1,12 @@
 Name:		pciutils
 Version:	2.2.1
-Release: 	1.2
+Release: 	2
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
 Patch5:		pciutils-devicetype.patch
+Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
 License:	GPL
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -35,6 +36,7 @@ devices connected to the PCI bus.
 %patch2 -p1 -b .scan
 %patch3 -p1 -b .pread
 %patch5 -p1 -b .devicetype
+%patch6 -p1 -b .idpath
 %patch7 -p1 -b .glibcmacros
 
 %build
@@ -45,8 +47,8 @@ make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdat
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,%{_libdir},%{_includedir}/pci}
 
-install lspci setpci $RPM_BUILD_ROOT/sbin
-install lspci.8 setpci.8 $RPM_BUILD_ROOT%{_mandir}/man8
+install lspci setpci update-pciids $RPM_BUILD_ROOT/sbin
+install lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
 install lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
 install lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
 install lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
@@ -68,6 +70,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Feb 23 2006 Harald Hoyer <harald@redhat.com> 2.2.1-2
+- added update-pciids shell script and manpage (bz #178582)
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 2.2.1-1.2
 - bump again for double-long bug on ppc(64)
 
