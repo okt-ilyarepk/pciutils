@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	2.2.1
-Release: 	2
+Version:	2.2.3
+Release: 	1
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch2:		pciutils-2.1.10-scan.patch
@@ -8,6 +8,7 @@ Patch3: 	pciutils-havepread.patch
 Patch5:		pciutils-devicetype.patch
 Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
+Patch8: 	pciutils-2.2.3-multilib.patch
 License:	GPL
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
@@ -38,6 +39,7 @@ devices connected to the PCI bus.
 %patch5 -p1 -b .devicetype
 %patch6 -p1 -b .idpath
 %patch7 -p1 -b .glibcmacros
+%patch8 -p1 -b .multilib
 
 %build
 make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdata"
@@ -70,6 +72,10 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue May 23 2006 Harald Hoyer <harald@redhat.com> 2.2.3-1
+- version 2.2.3
+- multilib patch (bug #192743)
+
 * Thu Feb 23 2006 Harald Hoyer <harald@redhat.com> 2.2.1-2
 - added update-pciids shell script and manpage (bz #178582)
 
