@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.3
-Release: 	2
+Release: 	2.1
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch2:		pciutils-2.1.10-scan.patch
@@ -72,6 +72,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 2.2.3-2.1
+- rebuild
+
 * Fri Jun 02 2006 Harald Hoyer <harald@redhat.com> 2.2.3-2
 - corrected multilib patch
 
