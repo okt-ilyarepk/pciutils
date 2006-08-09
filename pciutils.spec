@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.3
-Release: 	3
+Release: 	4
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch2:		pciutils-2.1.10-scan.patch
@@ -9,6 +9,7 @@ Patch5:		pciutils-devicetype.patch
 Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
 Patch8: 	pciutils-2.2.3-multilib.patch
+Patch9:		pciutils-2.2.3-sata.patch
 License:	GPL
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
@@ -40,6 +41,7 @@ devices connected to the PCI bus.
 %patch6 -p1 -b .idpath
 %patch7 -p1 -b .glibcmacros
 %patch8 -p1 -b .multilib
+%patch9 -p1 -b .sata
 
 %build
 make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdata"
@@ -72,6 +74,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug  9 2006 Peter Jones <pjones@redhat.com> - 2.2.3-4
+- Add definitions for more pci storage classes
+
 * Mon Jul 17 2006 Jesse Keating <jkeating@redhat.com> - 2.2.3-3
 - rebuild
 
