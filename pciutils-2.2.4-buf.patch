@@ -1,0 +1,58 @@
+--- pciutils-2.2.4/lib/names.c.buf	2006-09-09 12:46:39.000000000 +0200
++++ pciutils-2.2.4/lib/names.c	2007-01-26 13:47:01.000000000 +0100
+@@ -372,12 +372,27 @@
+     res = snprintf(buf, size, "%s", num);
+   else if (!name)
+     res = snprintf(buf, size, ((flags & PCI_LOOKUP_MIXED) ? "%s [%s]" : "%s %s"), unknown, num);
+-  else if (!(flags & PCI_LOOKUP_MIXED))
++  else if (!(flags & PCI_LOOKUP_MIXED)) 
+     res = snprintf(buf, size, "%s", name);
+   else
+     res = snprintf(buf, size, "%s [%s]", name, num);
+-  if (res < 0 || res >= size)
++  if (res < 0 || res >= size) {
++    if (name && res >= size) {
++	int nlen = strlen(name);
++	if (nlen > (res - size) + 5) {
++		char *nname = strdup(name);
++		int off = nlen - (res - size) - 5;
++		if (nname) {
++			nname[off] = '.';
++			nname[off+1] = '.';
++			nname[off+2] = '.';
++			nname[off+3] = 0;
++			return format_name(buf, size, flags, nname, num, unknown);
++		}
++	}
++    }
+     return "<pci_lookup_name: buffer too small>";
++  }
+   else
+     return buf;
+ }
+@@ -408,8 +423,24 @@
+       else /* v && !d */
+ 	res = snprintf(buf, size, "%s Unknown device %s", v, num+5);
+     }
+-  if (res < 0 || res >= size)
++  if (res < 0 || res >= size) {
++    if (d && res >= size) {
++	int nlen = strlen(d);
++	if (nlen > (res - size) + 5) {
++		char *nname = strdup(d);
++		int off = nlen - (res - size) - 5;
++		if (nname) {
++			nname[off] = '.';
++			nname[off+1] = '.';
++			nname[off+2] = '.';
++			nname[off+3] = 0;
++			return format_name_pair(buf, size, flags, v, nname, num);
++		}
++	}
++    }
++ 
+     return "<pci_lookup_name: buffer too small>";
++  }
+   else
+     return buf;
+ }

@@ -1,15 +1,14 @@
 Name:		pciutils
-Version:	2.2.3
-Release: 	4
+Version:	2.2.4
+Release: 	1
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
+Patch1: 	pciutils-2.2.4-buf.patch
 Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
-Patch5:		pciutils-devicetype.patch
 Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
-Patch8: 	pciutils-2.2.3-multilib.patch
-Patch9:		pciutils-2.2.3-sata.patch
+Patch8: 	pciutils-2.2.4-multilib.patch
 License:	GPL
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Buildroot: 	%{_tmppath}/%{name}-%{version}-root
@@ -35,13 +34,12 @@ devices connected to the PCI bus.
 %prep
 %setup -q -n pciutils-%{version}
 %patch0 -p1 -b .strip
+%patch1 -p1 -b .buf
 %patch2 -p1 -b .scan
 %patch3 -p1 -b .pread
-%patch5 -p1 -b .devicetype
 %patch6 -p1 -b .idpath
 %patch7 -p1 -b .glibcmacros
 %patch8 -p1 -b .multilib
-%patch9 -p1 -b .sata
 
 %build
 make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdata"
@@ -74,6 +72,11 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 26 2007 Harald Hoyer <harald@redhat.com> - 2.2.4-1
+- version 2.2.4
+- truncate long device names (#205948)
+- Resolves: rhbz#205948
+
 * Wed Aug  9 2006 Peter Jones <pjones@redhat.com> - 2.2.3-4
 - Add definitions for more pci storage classes
 
