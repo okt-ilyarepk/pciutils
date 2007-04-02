@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.4
-Release: 	1
+Release: 	2%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -11,10 +11,10 @@ Patch7:		pciutils-2.1.99-gcc4.patch
 Patch8: 	pciutils-2.2.4-multilib.patch
 License:	GPL
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
-Buildroot: 	%{_tmppath}/%{name}-%{version}-root
+BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 ExclusiveOS: 	Linux
 Requires:	hwdata
-Summary: PCI bus related utilities.
+Summary: PCI bus related utilities
 Group: Applications/System
 
 %description
@@ -24,7 +24,7 @@ require kernel version 2.1.82 or newer (which support the
 /proc/bus/pci interface).
 
 %package devel
-Summary: Linux PCI development library.
+Summary: Linux PCI development library
 Group: Development/Libraries
 
 %description devel
@@ -42,7 +42,7 @@ devices connected to the PCI bus.
 %patch8 -p1 -b .multilib
 
 %build
-make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdata"
+make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdata"  %{?_smp_mflags}
 
 
 %install
@@ -72,6 +72,11 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Apr  2 2007 Harald Hoyer <harald@redhat.com> - 2.2.4-2
+- added alpha to multilib patch (#231790)
+- specfile cleanup
+- Resolves: rhbz#231790
+
 * Fri Jan 26 2007 Harald Hoyer <harald@redhat.com> - 2.2.4-1
 - version 2.2.4
 - truncate long device names (#205948)

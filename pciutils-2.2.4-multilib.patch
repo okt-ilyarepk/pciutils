@@ -1,6 +1,6 @@
 --- pciutils-2.2.4/lib/configure.multilib	2006-09-09 13:06:10.000000000 +0200
-+++ pciutils-2.2.4/lib/configure	2007-01-26 13:09:31.000000000 +0100
-@@ -35,74 +35,60 @@
++++ pciutils-2.2.4/lib/configure	2007-04-02 11:49:55.000000000 +0200
+@@ -35,74 +35,62 @@
  zlib=$5
  
  c=config.h
@@ -25,6 +25,8 @@
 +#define PCI_ARCH_S390X
 +#elif defined(__s390__)
 +#define PCI_ARCH_S390
++#elif defined(__alpha__)
++#define PCI_ARCH_ALPHA
 +#else
 +#error Unknown Arch
 +#endif
@@ -122,7 +124,7 @@
  echo " dump"
  
  echo_n "Checking for zlib support... "
-@@ -124,6 +110,8 @@
+@@ -124,6 +112,8 @@
  	echo >>$c '#define PCI_IDS "pci.ids"'
  fi
  echo >>$c "#define PCI_PATH_IDS_DIR \"$idsdir\""
