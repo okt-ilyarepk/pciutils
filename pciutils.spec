@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.4
-Release: 	2%{?dist}
+Release: 	3%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -14,6 +14,7 @@ URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 ExclusiveOS: 	Linux
 Requires:	hwdata
+BuildRequires:	zlib-devel
 Summary: PCI bus related utilities
 Group: Applications/System
 
@@ -26,6 +27,7 @@ require kernel version 2.1.82 or newer (which support the
 %package devel
 Summary: Linux PCI development library
 Group: Development/Libraries
+Requires: zlib-devel
 
 %description devel
 This package contains a library for inspecting and setting
@@ -72,6 +74,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Apr  5 2007 Peter Jones <pjones@redhat.com> - 2.2.4-3
+- buildreq zlib-devel, so we know configure will find it consistently.
+
 * Mon Apr  2 2007 Harald Hoyer <harald@redhat.com> - 2.2.4-2
 - added alpha to multilib patch (#231790)
 - specfile cleanup
