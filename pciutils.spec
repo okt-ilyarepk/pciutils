@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	2.2.4
-Release: 	3%{?dist}
+Version:	2.2.5
+Release: 	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -74,6 +74,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu May 31 2007 Harald Hoyer <harald@redhat.com> - 2.2.5-1
+- version 2.2.5
+
 * Thu Apr  5 2007 Peter Jones <pjones@redhat.com> - 2.2.4-3
 - buildreq zlib-devel, so we know configure will find it consistently.
 

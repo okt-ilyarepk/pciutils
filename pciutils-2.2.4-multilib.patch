@@ -1,13 +1,13 @@
---- pciutils-2.2.4/lib/configure.multilib	2006-09-09 13:06:10.000000000 +0200
-+++ pciutils-2.2.4/lib/configure	2007-04-02 11:49:55.000000000 +0200
-@@ -35,74 +35,62 @@
+--- pciutils-2.2.5/lib/configure.multilib	2007-02-06 12:58:14.000000000 +0100
++++ pciutils-2.2.5/lib/configure	2007-05-31 12:27:33.000000000 +0200
+@@ -36,75 +36,62 @@
  zlib=$5
  
  c=config.h
 +cm=config.h.mk
  m=config.mk
--echo >$c "#define PCI_ARCH_`echo $cpu | tr 'a-z' 'A-Z'`"
--echo >>$c "#define PCI_OS_`echo $sys | tr 'a-z' 'A-Z'`"
+-echo >$c "#define PCI_ARCH_`echo $cpu | tr '[a-z]' '[A-Z]'`"
+-echo >>$c "#define PCI_OS_`echo $sys | tr '[a-z]' '[A-Z]'`"
 -rm -f $m
 +cat >$c <<EOF
 +#if defined(__x86_64__)
@@ -73,6 +73,7 @@
 -						exit 1
 -						;;
 -		esac
+-		echo >>$c '#define PCI_HAVE_STDINT_H'
 -		;;
 -	freebsd)
 -		echo_n " fbsd-device"
@@ -124,7 +125,7 @@
  echo " dump"
  
  echo_n "Checking for zlib support... "
-@@ -124,6 +112,8 @@
+@@ -126,6 +113,8 @@
  	echo >>$c '#define PCI_IDS "pci.ids"'
  fi
  echo >>$c "#define PCI_PATH_IDS_DIR \"$idsdir\""
