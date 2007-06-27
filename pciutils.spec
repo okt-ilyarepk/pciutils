@@ -1,5 +1,5 @@
 Name:		pciutils
-Version:	2.2.5
+Version:	2.2.6
 Release: 	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
@@ -14,7 +14,7 @@ URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 ExclusiveOS: 	Linux
 Requires:	hwdata
-BuildRequires:	zlib-devel
+BuildRequires:	zlib-devel sed
 Summary: PCI bus related utilities
 Group: Applications/System
 
@@ -42,6 +42,7 @@ devices connected to the PCI bus.
 %patch6 -p1 -b .idpath
 %patch7 -p1 -b .glibcmacros
 %patch8 -p1 -b .multilib
+sed -i -e 's/^SRC=.*/SRC="http:\/\/pciids.sourceforge.net\/pci.ids"/' update-pciids.sh
 
 %build
 make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdata"  %{?_smp_mflags}
@@ -74,6 +75,10 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jun 27 2007 Harald Hoyer <harald@redhat.com> - 2.2.6-1
+- version 2.2.6
+- fixed URL in update-pciids.sh 
+
 * Thu May 31 2007 Harald Hoyer <harald@redhat.com> - 2.2.5-1
 - version 2.2.5
 
