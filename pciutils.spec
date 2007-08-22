@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.6
-Release: 	2%{?dist}
+Release: 	3%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -9,7 +9,7 @@ Patch3: 	pciutils-havepread.patch
 Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
 Patch8: 	pciutils-2.2.4-multilib.patch
-License:	GPL
+License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 ExclusiveOS: 	Linux
@@ -75,6 +75,9 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Aug 22 2007 Harald Hoyer <harald@redhat.com> - 2.2.6-3
+- changed license tag
+
 * Thu Jul 12 2007 Harald Hoyer <harald@redhat.com> - 2.2.6-2
 - fixed update-pciids.sh
 
