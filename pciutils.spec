@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	2.2.6
-Release: 	3%{?dist}
+Version:	2.2.9
+Release: 	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -8,7 +8,7 @@ Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
 Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
-Patch8: 	pciutils-2.2.4-multilib.patch
+Patch8: 	pciutils-2.2.9-multilib.patch
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -50,7 +50,7 @@ make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdat
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,%{_libdir},%{_includedir}/pci}
+install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
 
 install lspci setpci update-pciids $RPM_BUILD_ROOT/sbin
 install lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
@@ -59,6 +59,7 @@ install lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
 install lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
 install lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
 install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
+install lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 
 %files
 %defattr(0644, root, root, 0755)
@@ -69,12 +70,17 @@ install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 %files devel
 %defattr(0644, root, root, 0755)
 %{_libdir}/libpci.a
+%{_libdir}/pkgconfig/libpci.pc
 %{_includedir}/pci
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Nov 20 2007 Harald Hoyer <harald@redhat.com> - 2.2.9-1
+- version 2.2.9
+- added package config file (rhbz#389451)
+
 * Wed Aug 22 2007 Harald Hoyer <harald@redhat.com> - 2.2.6-3
 - changed license tag
 
