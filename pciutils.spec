@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.9
-Release: 	1%{?dist}
+Release: 	2%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -27,7 +27,7 @@ require kernel version 2.1.82 or newer (which support the
 %package devel
 Summary: Linux PCI development library
 Group: Development/Libraries
-Requires: zlib-devel
+Requires: zlib-devel pkgconfig %{name} = %{version}-%{release}
 
 %description devel
 This package contains a library for inspecting and setting
@@ -77,6 +77,9 @@ install lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Jan 10 2008 Harald Hoyer <harald@redhat.com> 2.2.9-2
+- added more requirements for pciutils-devel
+
 * Tue Nov 20 2007 Harald Hoyer <harald@redhat.com> - 2.2.9-1
 - version 2.2.9
 - added package config file (rhbz#389451)
