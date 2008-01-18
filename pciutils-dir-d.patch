@@ -1,0 +1,107 @@
+diff -up pciutils-2.2.9/lib/pci.h.dird pciutils-2.2.9/lib/pci.h
+--- pciutils-2.2.9/lib/pci.h.dird	2006-09-09 14:46:06.000000000 +0200
++++ pciutils-2.2.9/lib/pci.h	2008-01-18 09:51:03.000000000 +0100
+@@ -162,6 +162,7 @@ char *pci_lookup_name(struct pci_access 
+ int pci_load_name_list(struct pci_access *a);	/* Called automatically by pci_lookup_*() when needed; returns success */
+ void pci_free_name_list(struct pci_access *a);	/* Called automatically by pci_cleanup() */
+ void pci_set_name_list_path(struct pci_access *a, char *name, int to_be_freed);
++int pci_new_load_name_list(struct pci_access *a);
+ 
+ enum pci_lookup_mode {
+   PCI_LOOKUP_VENDOR = 1,		/* Vendor name (args: vendorID) */
+diff -up pciutils-2.2.9/lib/names.c.dird pciutils-2.2.9/lib/names.c
+--- pciutils-2.2.9/lib/names.c.dird	2008-01-18 09:51:03.000000000 +0100
++++ pciutils-2.2.9/lib/names.c	2008-01-18 09:54:28.000000000 +0100
+@@ -11,6 +11,8 @@
+ #include <stdarg.h>
+ #include <string.h>
+ #include <errno.h>
++#include <dirent.h>
++#include <libgen.h>
+ 
+ #include "internal.h"
+ 
+@@ -183,7 +185,7 @@ static inline int id_white_p(int c)
+   return (c == ' ') || (c == '\t');
+ }
+ 
+-static const char *id_parse_list(struct pci_access *a, pci_file f, int *lino)
++static const char *id_parse_list(struct pci_access *a, pci_file f, int *lino, int flags)
+ {
+   char line[MAX_LINE];
+   char *p;
+@@ -308,7 +310,7 @@ static const char *id_parse_list(struct 
+ 	p++;
+       if (!*p)
+ 	return parse_error;
+-      if (id_insert(a, cat, id1, id2, id3, id4, p))
++      if (id_insert(a, cat, id1, id2, id3, id4, p) && flags)
+ 	return "Duplicate entry";
+     }
+   return NULL;
+@@ -324,15 +326,15 @@ pci_load_name_list(struct pci_access *a)
+   pci_free_name_list(a);
+   a->hash_load_failed = 1;
+   if (!(f = pci_open(a)))
+-    return 0;
++    pci_new_load_name_list(a);
+   a->id_hash = pci_malloc(a, sizeof(struct id_entry *) * HASH_SIZE);
+   memset(a->id_hash, 0, sizeof(struct id_entry *) * HASH_SIZE);
+-  err = id_parse_list(a, f, &lino);
++  err = id_parse_list(a, f, &lino, 0);
+   PCI_ERROR(f, err);
+   pci_close(f);
+   if (err)
+     a->error("%s at %s, line %d\n", err, a->id_file_name, lino);
+-  a->hash_load_failed = 0;
++  pci_new_load_name_list(a);
+   return 1;
+ }
+ 
+@@ -548,3 +550,46 @@ void pci_set_name_list_path(struct pci_a
+   a->id_file_name = name;
+   a->free_id_name = to_be_freed;
+ }
++int pci_new_load_name_list(struct pci_access *a)
++{
++  pci_file f;
++  int lino, tempsize;
++  const char *err;
++  char *temp;
++  char new_id_path[PATH_MAX] = {0,};
++  DIR *pci_ids_dir;
++  struct dirent *dp;
++  
++  strncpy(new_id_path, a->id_file_name, PATH_MAX);
++  new_id_path[PATH_MAX] = 0;
++  strncat(new_id_path, ".d/", PATH_MAX - strnlen(new_id_path, PATH_MAX));
++  /* printf("new_id_path is %s\n", new_id_path); */
++  pci_ids_dir = opendir(new_id_path); 
++  do
++    {
++     if ((dp = readdir(pci_ids_dir)) != NULL)
++       {
++          if (! strcmp(dp->d_name, "..") || ! strcmp(dp->d_name, "."))
++            continue;
++          if (strstr(dp->d_name, ".ids")) 
++            {
++             tempsize = strnlen(new_id_path, PATH_MAX) + dp->d_reclen + 1;
++             temp = malloc(tempsize);      /* This malloced memory is freed in the function pci_set_name_list_path() */ 
++             memset(temp, 0, tempsize);
++             strncpy(temp, new_id_path, (strnlen(new_id_path, temp))+1);
++             strncat(temp, dp->d_name, PATH_MAX - strnlen(temp, PATH_MAX));
++             /* printf("Found file %s, processing it\n", temp); */
++             pci_set_name_list_path(a, temp, 1);
++             if (!(f = pci_open(a)))
++               continue;
++             err = id_parse_list(a, f, &lino, 0);
++             PCI_ERROR(f, err);
++             pci_close(f);
++             if (err)
++               a->error("%s at %s, line %d\n", err, a->id_file_name, lino);
++             a->hash_load_failed = 0;
++            }
++       }
++    }while (dp != NULL);
++  return 1;
++}   

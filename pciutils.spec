@@ -9,6 +9,7 @@ Patch3: 	pciutils-havepread.patch
 Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
 Patch8: 	pciutils-2.2.9-multilib.patch
+Patch9: 	pciutils-dir-d.patch
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -42,6 +43,7 @@ devices connected to the PCI bus.
 %patch6 -p1 -b .idpath
 %patch7 -p1 -b .glibcmacros
 %patch8 -p1 -b .multilib
+%patch9 -p1 -b .dird
 sed -i -e 's/^SRC=.*/SRC="http:\/\/pciids.sourceforge.net\/pci.ids"/' update-pciids.sh
 
 %build
@@ -52,14 +54,14 @@ make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdat
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
 
-install lspci setpci update-pciids $RPM_BUILD_ROOT/sbin
-install lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
-install lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
-install lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
-install lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
-install lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
-install lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
-install lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
+install -p lspci setpci update-pciids $RPM_BUILD_ROOT/sbin
+install -p lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
+#install -p lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
+install -p lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
+install -p lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
+install -p lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
+install -p lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
+install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 
 %files
 %defattr(0644, root, root, 0755)
@@ -69,7 +71,6 @@ install lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 
 %files devel
 %defattr(0644, root, root, 0755)
-%{_libdir}/libpci.a
 %{_libdir}/pkgconfig/libpci.pc
 %{_includedir}/pci
 
@@ -77,6 +78,11 @@ install lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 18 2008 Harald Hoyer <harald@redhat.com> 2.2.9-2
+- removed static library, preserve timestamps on install (rhbz#226236)
+- added modified patch from Michael E. Brown @ Dell, to also
+  read all /usr/share/hwdata/pci.ids.d/*.ids files (rhbz#195327)
+
 * Thu Jan 10 2008 Harald Hoyer <harald@redhat.com> 2.2.9-2
 - added more requirements for pciutils-devel
 
