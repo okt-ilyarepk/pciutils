@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.9
-Release: 	3%{?dist}
+Release: 	4%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -78,6 +78,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Jan 21 2008 Harald Hoyer <harald@redhat.com> 2.2.9-4
+- fixed segfault, if subdir does not exists
+
 * Fri Jan 18 2008 Harald Hoyer <harald@redhat.com> 2.2.9-3
 - removed static library, preserve timestamps on install (rhbz#226236)
 - added modified patch from Michael E. Brown @ Dell, to also
