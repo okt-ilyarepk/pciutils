@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.9
-Release: 	4%{?dist}
+Release: 	5%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -56,7 +56,7 @@ install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,%{_libdir},%{_libdir}/pkgconfig
 
 install -p lspci setpci update-pciids $RPM_BUILD_ROOT/sbin
 install -p lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
-#install -p lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
+install -p lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
 install -p lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
@@ -78,6 +78,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jan 22 2008 Bill Nottingham <notting@redhat.com> 2.2.9-5
+- put library back
+
 * Mon Jan 21 2008 Harald Hoyer <harald@redhat.com> 2.2.9-4
 - fixed segfault, if subdir does not exists
 
