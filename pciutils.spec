@@ -72,6 +72,7 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %files devel
 %defattr(0644, root, root, 0755)
 %{_libdir}/pkgconfig/libpci.pc
+%{_libdir}/libpci.a
 %{_includedir}/pci
 
 %clean
