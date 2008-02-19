@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.9
-Release: 	5%{?dist}
+Release: 	6%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -79,6 +79,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Feb 18 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 2.2.9-6
+- Autorebuild for GCC 4.3
+
 * Tue Jan 22 2008 Bill Nottingham <notting@redhat.com> 2.2.9-5
 - put library back
 
