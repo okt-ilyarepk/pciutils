@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	2.2.9
-Release: 	6%{?dist}
+Version:	2.2.10
+Release: 	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -8,7 +8,7 @@ Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
 Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
-Patch8: 	pciutils-2.2.9-multilib.patch
+Patch8: 	pciutils-2.2.10-multilib.patch
 Patch9: 	pciutils-dir-d.patch
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -79,6 +79,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Feb 20 2008 Harald Hoyer <harald@redhat.com> 2.2.10-1
+- version 2.2.10
+
 * Mon Feb 18 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 2.2.9-6
 - Autorebuild for GCC 4.3
 

@@ -1,15 +1,15 @@
-diff -up pciutils-2.2.9/lib/configure.multilib pciutils-2.2.9/lib/configure
---- pciutils-2.2.9/lib/configure.multilib	2007-10-19 15:38:23.000000000 +0200
-+++ pciutils-2.2.9/lib/configure	2007-11-20 10:32:57.000000000 +0100
-@@ -36,75 +36,62 @@ echo " $host $rel"
- zlib=$5
+diff -up pciutils-2.2.10/lib/configure.multilib pciutils-2.2.10/lib/configure
+--- pciutils-2.2.10/lib/configure.multilib	2008-02-11 21:04:18.000000000 +0100
++++ pciutils-2.2.10/lib/configure	2008-02-20 11:04:18.000000000 +0100
+@@ -37,74 +37,60 @@ zlib=$5
  
  c=config.h
-+cm=config.h.mk
  m=config.mk
 -echo >$c "#define PCI_ARCH_`echo $cpu | tr '[a-z]' '[A-Z]'`"
 -echo >>$c "#define PCI_OS_`echo $sys | tr '[a-z]' '[A-Z]'`"
 -rm -f $m
+ 
++cm=config.h.mk
 +cat >$c <<EOF
 +#if defined(__x86_64__)
 +#define PCI_ARCH_X86_64
@@ -40,15 +40,12 @@ diff -up pciutils-2.2.9/lib/configure.multilib pciutils-2.2.9/lib/configure
 +#define PCI_HAVE_64BIT_ADDRESS
 +EOF
 +
-+#echo >$c "#define PCI_ARCH_`echo $cpu | tr 'a-z' 'A-Z'`"
-+#echo >>$c "#define PCI_OS_`echo $sys | tr 'a-z' 'A-Z'`"
 +rm -f $cm
 +echo >$cm "#define PCI_ARCH_`echo $cpu | tr 'a-z' 'A-Z'`"
 +echo >>$cm "#define PCI_OS_`echo $sys | tr 'a-z' 'A-Z'`"
- 
++  
  echo_n "Looking for access methods..."
-+echo_n " sysfs proc"
- 
+-
 -case $sys in
 -	linux*)
 -		echo_n " sysfs proc"
@@ -70,7 +67,7 @@ diff -up pciutils-2.2.9/lib/configure.multilib pciutils-2.2.9/lib/configure
 -						echo >>$c "#define PCI_HAVE_PM_INTEL_CONF"
 -						;;
 -				*)
--						echo " The PCI library is does not support Solaris for this architecture: $cpu"
+-						echo " The PCI library does not support Solaris for this architecture: $cpu"
 -						exit 1
 -						;;
 -		esac
@@ -108,6 +105,8 @@ diff -up pciutils-2.2.9/lib/configure.multilib pciutils-2.2.9/lib/configure
 -		echo " Unfortunately, your OS is not supported by the PCI Library"
 -		exit 1
 -		;;
++echo_n " sysfs proc"
++  
 +echo >>$cm '#define PCI_HAVE_PM_LINUX_SYSFS'
 +echo >>$cm '#define PCI_HAVE_PM_LINUX_PROC'
 +echo >>$cm '#define PCI_HAVE_LINUX_BYTEORDER_H'
@@ -118,15 +117,15 @@ diff -up pciutils-2.2.9/lib/configure.multilib pciutils-2.2.9/lib/configure
 +	        echo >>$cm '#define PCI_HAVE_PM_INTEL_CONF'
 +        ;;
  esac
+ 
 +echo >>$cm '#define PCI_HAVE_64BIT_ADDRESS'
 +
- 
  echo >>$c '#define PCI_HAVE_PM_DUMP'
 +echo >>$cm '#define PCI_HAVE_PM_DUMP'
  echo " dump"
  
  echo_n "Checking for zlib support... "
-@@ -127,6 +114,8 @@ else
+@@ -127,6 +113,8 @@ else
  	echo >>$c '#define PCI_IDS "pci.ids"'
  fi
  echo >>$c "#define PCI_PATH_IDS_DIR \"$idsdir\""
