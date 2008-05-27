@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.10
-Release: 	1%{?dist}
+Release: 	2%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -10,6 +10,7 @@ Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
 Patch8: 	pciutils-2.2.10-multilib.patch
 Patch9: 	pciutils-dir-d.patch
+Patch10:	pciutils-2.2.10-sparc-support.patch
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -44,6 +45,7 @@ devices connected to the PCI bus.
 %patch7 -p1 -b .glibcmacros
 %patch8 -p1 -b .multilib
 %patch9 -p1 -b .dird
+%patch10 -p1 -b .sparc
 sed -i -e 's/^SRC=.*/SRC="http:\/\/pciids.sourceforge.net\/pci.ids"/' update-pciids.sh
 
 %build
@@ -79,6 +81,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon May 26 2008 Tom "spot" Callaway <tcallawa@redhat.com> 2.2.10-2
+- add sparc support
+
 * Wed Feb 20 2008 Harald Hoyer <harald@redhat.com> 2.2.10-1
 - version 2.2.10
 
