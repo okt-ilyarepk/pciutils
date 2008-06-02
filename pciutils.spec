@@ -1,14 +1,13 @@
 Name:		pciutils
-Version:	2.2.10
-Release: 	2%{?dist}
+Version:	3.0.0
+Release: 	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
-Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
 Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
 Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
-Patch8: 	pciutils-2.2.10-multilib.patch
+Patch8: 	pciutils-3.0.0-multilib.patch
 Patch9: 	pciutils-dir-d.patch
 Patch10:	pciutils-2.2.10-sparc-support.patch
 License:	GPLv2+
@@ -16,7 +15,7 @@ URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 ExclusiveOS: 	Linux
 Requires:	hwdata
-BuildRequires:	zlib-devel sed
+BuildRequires:	sed
 Summary: PCI bus related utilities
 Group: Applications/System
 
@@ -35,9 +34,16 @@ Requires: zlib-devel pkgconfig %{name} = %{version}-%{release}
 This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
+%package libs
+Summary: Linux PCI library
+Group: System Environment/Libraries
+
+%description libs
+This package contains a library for inspecting and setting
+devices connected to the PCI bus.
+
 %prep
 %setup -q -n pciutils-%{version}
-%patch0 -p1 -b .strip
 %patch1 -p1 -b .buf
 %patch2 -p1 -b .scan
 %patch3 -p1 -b .pread
@@ -49,21 +55,35 @@ devices connected to the PCI bus.
 sed -i -e 's/^SRC=.*/SRC="http:\/\/pciids.sourceforge.net\/pci.ids"/' update-pciids.sh
 
 %build
-make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
+make SHARED="no" ZLIB="no" STRIP="" OPT="$RPM_OPT_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
+mv lib/libpci.a lib/libpci.a.toinstall
 
+make clean
+
+make SHARED="yes" ZLIB="no" STRIP="" OPT="$RPM_OPT_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
 
 install -p lspci setpci update-pciids $RPM_BUILD_ROOT/sbin
 install -p lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
+install -p  lib/libpci.so.*.*.* $RPM_BUILD_ROOT%{_libdir}
+ln -s $(basename $RPM_BUILD_ROOT%{_libdir}/*.so.*.*.*) $RPM_BUILD_ROOT%{_libdir}/libpci.so
+
+mv lib/libpci.a.toinstall lib/libpci.a
 install -p lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
+/sbin/ldconfig -N $RPM_BUILD_ROOT%{_libdir}
 install -p lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
+
+%post libs -p /sbin/ldconfig
+
+%postun libs -p /sbin/ldconfig
 
 %files
 %defattr(0644, root, root, 0755)
@@ -71,16 +91,23 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %attr(0755, root, root) /sbin/*
 %doc README ChangeLog pciutils.lsm
 
+%files libs
+%{_libdir}/libpci.so.*
+
 %files devel
 %defattr(0644, root, root, 0755)
 %{_libdir}/pkgconfig/libpci.pc
 %{_libdir}/libpci.a
+%{_libdir}/libpci.so
 %{_includedir}/pci
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Jun 02 2008 Harald Hoyer <harald@redhat.com> 3.0.0-1
+- version 3.0.0
+
 * Mon May 26 2008 Tom "spot" Callaway <tcallawa@redhat.com> 2.2.10-2
 - add sparc support
 
