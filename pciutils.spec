@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.0.0
-Release: 	1%{?dist}
+Release: 	2%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch1: 	pciutils-2.2.4-buf.patch
 Patch2:		pciutils-2.1.10-scan.patch
@@ -105,6 +105,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Sep 01 2008 Harald Hoyer <harald@redhat.com> 3.0.0-2
+- rebuild to eliminate fuzz patches
+
 * Mon Jun 02 2008 Harald Hoyer <harald@redhat.com> 3.0.0-1
 - version 3.0.0
 

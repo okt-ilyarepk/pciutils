@@ -1,6 +1,6 @@
 diff -up pciutils-3.0.0/lib/configure.multilib pciutils-3.0.0/lib/configure
 --- pciutils-3.0.0/lib/configure.multilib	2008-04-10 21:15:47.000000000 +0200
-+++ pciutils-3.0.0/lib/configure	2008-06-02 06:46:35.000000000 +0200
++++ pciutils-3.0.0/lib/configure	2008-09-01 15:17:03.000000000 +0200
 @@ -41,28 +41,61 @@ sys=`echo $host | sed 's/^\([^-]*\)-\([^
  echo " $host $rel"
  

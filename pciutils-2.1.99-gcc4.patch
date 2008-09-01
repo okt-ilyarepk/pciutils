@@ -1,9 +1,7 @@
-Patch by Robert Scheck <redhat@linuxnetz.de> for pciutils >= 2.1.99, which make pciutils
-rebuildable using gcc 4.
-
---- pciutils-2.1.99-test8/lib/i386-ports.c		2004-08-13 22:13:11.000000000 +0200
-+++ pciutils-2.1.99-test8/lib/i386-ports.c.gcc4		2005-03-14 09:30:06.000000000 +0100
-@@ -57,9 +57,9 @@
+diff -up pciutils-3.0.0/lib/i386-ports.c.glibcmacros pciutils-3.0.0/lib/i386-ports.c
+--- pciutils-3.0.0/lib/i386-ports.c.glibcmacros	2008-04-10 21:15:47.000000000 +0200
++++ pciutils-3.0.0/lib/i386-ports.c	2008-09-01 15:16:42.000000000 +0200
+@@ -70,9 +70,9 @@ intel_sanity_check(struct pci_access *a,
    for(d.dev = 0; d.dev < 32; d.dev++)
      {
        u16 class, vendor;

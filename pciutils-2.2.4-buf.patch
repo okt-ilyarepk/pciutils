@@ -1,6 +1,7 @@
---- pciutils-2.2.4/lib/names.c.buf	2006-09-09 12:46:39.000000000 +0200
-+++ pciutils-2.2.4/lib/names.c	2007-01-26 13:47:01.000000000 +0100
-@@ -372,12 +372,27 @@
+diff -up pciutils-3.0.0/lib/names.c.buf pciutils-3.0.0/lib/names.c
+--- pciutils-3.0.0/lib/names.c.buf	2008-04-10 21:15:47.000000000 +0200
++++ pciutils-3.0.0/lib/names.c	2008-09-01 15:14:58.000000000 +0200
+@@ -65,12 +65,27 @@ format_name(char *buf, int size, int fla
      res = snprintf(buf, size, "%s", num);
    else if (!name)
      res = snprintf(buf, size, ((flags & PCI_LOOKUP_MIXED) ? "%s [%s]" : "%s %s"), unknown, num);
@@ -30,9 +31,9 @@
    else
      return buf;
  }
-@@ -408,8 +423,24 @@
+@@ -101,8 +116,24 @@ format_name_pair(char *buf, int size, in
        else /* v && !d */
- 	res = snprintf(buf, size, "%s Unknown device %s", v, num+5);
+ 	res = snprintf(buf, size, "%s Device %s", v, num+5);
      }
 -  if (res < 0 || res >= size)
 +  if (res < 0 || res >= size) {

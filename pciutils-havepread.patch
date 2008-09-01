@@ -1,5 +1,6 @@
---- pciutils-2.1.99-test8/lib/pread.h.pread	2004-08-13 16:15:46.000000000 -0400
-+++ pciutils-2.1.99-test8/lib/pread.h	2004-08-31 00:30:03.168157294 -0400
+diff -up pciutils-3.0.0/lib/pread.h.pread pciutils-3.0.0/lib/pread.h
+--- pciutils-3.0.0/lib/pread.h.pread	2006-05-05 14:18:24.000000000 +0200
++++ pciutils-3.0.0/lib/pread.h	2008-09-01 15:15:53.000000000 +0200
 @@ -12,54 +12,6 @@
   *  don't define it.
   */
