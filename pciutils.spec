@@ -1,15 +1,16 @@
 Name:		pciutils
-Version:	3.0.0
-Release: 	2%{?dist}
+Version:	3.0.1
+Release: 	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch1: 	pciutils-2.2.4-buf.patch
 Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
 Patch6: 	pciutils-2.2.1-idpath.patch
 Patch7:		pciutils-2.1.99-gcc4.patch
-Patch8: 	pciutils-3.0.0-multilib.patch
+Patch8: 	pciutils-3.0.1-multilib.patch
 Patch9: 	pciutils-dir-d.patch
 Patch10:	pciutils-2.2.10-sparc-support.patch
+Patch11:	pciutils-3.0.1-superh-support.patch
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -52,6 +53,8 @@ devices connected to the PCI bus.
 %patch8 -p1 -b .multilib
 %patch9 -p1 -b .dird
 %patch10 -p1 -b .sparc
+%patch11 -p1 -b .superh
+
 sed -i -e 's/^SRC=.*/SRC="http:\/\/pciids.sourceforge.net\/pci.ids"/' update-pciids.sh
 
 %build
@@ -61,6 +64,12 @@ mv lib/libpci.a lib/libpci.a.toinstall
 make clean
 
 make SHARED="yes" ZLIB="no" STRIP="" OPT="$RPM_OPT_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
+
+#fix lib vs. lib64 in libpci.pc (static Makefile is used)
+mv lib/libpci.pc lib/libpci.pc.old
+sed <lib/libpci.pc.old >lib/libpci.pc "s|^libdir=.*$|libdir=%{_libdir}|"
+rm lib/libpci.pc.old
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -105,6 +114,11 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Sep 19 2008 Michal Hlavinka <mhlavink@redhat.com> 3.0.1-1
+- version 3.0.1
+- add support for Super-H (sh3,sh4) (#446600)
+- fix: broken -L in libpci.pc (#456469)
+
 * Mon Sep 01 2008 Harald Hoyer <harald@redhat.com> 3.0.0-2
 - rebuild to eliminate fuzz patches
 
