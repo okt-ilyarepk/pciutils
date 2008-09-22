@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.10
-Release: 	2%{?dist}
+Release: 	3%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -11,6 +11,9 @@ Patch7:		pciutils-2.1.99-gcc4.patch
 Patch8: 	pciutils-2.2.10-multilib.patch
 Patch9: 	pciutils-dir-d.patch
 Patch10:	pciutils-2.2.10-sparc-support.patch
+Patch11:	pciutils-3.0.1-superh-support.patch
+#backported patch from mainstream 3.0.1:
+Patch12:	pciutils-2.2.10-wget-timestamping.patch
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -46,11 +49,18 @@ devices connected to the PCI bus.
 %patch8 -p1 -b .multilib
 %patch9 -p1 -b .dird
 %patch10 -p1 -b .sparc
+%patch11 -p1 -b .superh
+%patch12 -p1 -b .wgettimestamp
+
 sed -i -e 's/^SRC=.*/SRC="http:\/\/pciids.sourceforge.net\/pci.ids"/' update-pciids.sh
 
 %build
 make OPT="$RPM_OPT_FLAGS -D_GNU_SOURCE=1" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
 
+#fix lib vs. lib64 in libpci.pc (static Makefile is used)
+mv lib/libpci.pc lib/libpci.pc.old
+sed <lib/libpci.pc.old >lib/libpci.pc "s|^libdir=.*$|libdir=%{_libdir}|"
+rm lib/libpci.pc.old
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -81,6 +91,11 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Sep 22 2008 Michal Hlavinka <mhlavink@redhat.com> 2.2.10-3
+- add support for Super-H (sh3,sh4) (#446600)
+- fix: broken -L in libpci.pc (#456469)
+- fix: update-pciids broken with wget 1.11 and "timestamping = on" in wgetrc (#441946)
+
 * Mon May 26 2008 Tom "spot" Callaway <tcallawa@redhat.com> 2.2.10-2
 - add sparc support
 
