@@ -1,0 +1,14 @@
+diff -up pciutils-2.2.10/lib/configure.BAD pciutils-2.2.10/lib/configure
+--- pciutils-2.2.10/lib/configure.BAD	2008-05-26 18:28:51.000000000 -0500
++++ pciutils-2.2.10/lib/configure	2008-05-26 18:30:13.000000000 -0500
+@@ -57,6 +57,10 @@ cat >$c <<EOF
+ #define PCI_ARCH_S390
+ #elif defined(__alpha__)
+ #define PCI_ARCH_ALPHA
++#elif defined(__sparc__) && defined (__arch64__)
++#define PCI_ARCH_SPARC64
++#elif defined(__sparc__)
++#define PCI_ARCH_SPARC
+ #else
+ #error Unknown Arch
+ #endif

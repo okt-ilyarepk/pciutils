@@ -1,0 +1,12 @@
+diff -up pciutils-2.2.9/update-pciids.sh.wget-timestamping pciutils-2.2.9/update-pciids.sh
+--- pciutils-2.2.9/update-pciids.sh.wget-timestamping	2006-09-09 12:36:17.000000000 +0200
++++ pciutils-2.2.9/update-pciids.sh	2008-09-22 12:33:04.679529269 +0200
+@@ -23,7 +23,7 @@ fi
+ if which curl >/dev/null ; then
+ 	DL="curl -o $DEST.new $SRC"
+ elif which wget >/dev/null ; then
+-	DL="wget -O $DEST.new $SRC"
++	DL="wget -no-timestamping -O $DEST.new $SRC"
+ elif which lynx >/dev/null ; then
+ 	DL="eval lynx -source $SRC >$DEST.new"
+ else
