@@ -1,5 +1,5 @@
 Name:		pciutils
-Version:	3.0.2
+Version:	3.0.3
 Release: 	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -114,7 +114,10 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Mon Sep 22 2008 Michal Hlavinka <mhlavink@redhat.com> 3.0.1-1
+* Tue Dec 09 2008 Michal Hlavinka <mhlavink@redhat.com> 3.0.3-1
+- version 3.0.3
+
+* Mon Sep 22 2008 Michal Hlavinka <mhlavink@redhat.com> 3.0.2-1
 - version 3.0.2
 
 * Fri Sep 19 2008 Michal Hlavinka <mhlavink@redhat.com> 3.0.1-1
