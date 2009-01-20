@@ -60,7 +60,7 @@ diff -up pciutils-3.0.0/lib/names-parse.c.dird pciutils-3.0.0/lib/names-parse.c
 +  int lino, tempsize;
 +  const char *err;
 +  char *temp;
-+  char new_id_path[PATH_MAX] = {0,};
++  char new_id_path[PATH_MAX+1] = {0,};
 +  DIR *pci_ids_dir;
 +  struct dirent *dp;
 +  

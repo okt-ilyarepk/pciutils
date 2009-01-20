@@ -1,12 +1,11 @@
 Name:		pciutils
-Version:	3.0.3
+Version:	3.1.0
 Release: 	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch1: 	pciutils-2.2.4-buf.patch
 Patch2:		pciutils-2.1.10-scan.patch
 Patch3: 	pciutils-havepread.patch
 Patch6: 	pciutils-2.2.1-idpath.patch
-Patch7:		pciutils-2.1.99-gcc4.patch
 Patch8: 	pciutils-3.0.2-multilib.patch
 Patch9: 	pciutils-dir-d.patch
 Patch10:	pciutils-2.2.10-sparc-support.patch
@@ -49,7 +48,6 @@ devices connected to the PCI bus.
 %patch2 -p1 -b .scan
 %patch3 -p1 -b .pread
 %patch6 -p1 -b .idpath
-%patch7 -p1 -b .glibcmacros
 %patch8 -p1 -b .multilib
 %patch9 -p1 -b .dird
 %patch10 -p1 -b .sparc
@@ -114,6 +112,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Jan 19 2009 Michal Hlavinka <mhlavink@redhat.com> 3.1.0-1
+- version 3.1.0
+
 * Tue Dec 09 2008 Michal Hlavinka <mhlavink@redhat.com> 3.0.3-1
 - version 3.0.3
 
