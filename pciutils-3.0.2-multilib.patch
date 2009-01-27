@@ -25,7 +25,7 @@ diff -up pciutils-3.0.2/lib/configure.multilib pciutils-3.0.2/lib/configure
 +#elif defined(__ppc__)  || defined(__powerpc__)
 +#define PCI_ARCH_PPC
 +#elif defined(__s390x__)
-+define PCI_ARCH_S390X
++#define PCI_ARCH_S390X
 +#elif defined(__s390__)
 +#define PCI_ARCH_S390
 +#elif defined(__alpha__)
