@@ -1,5 +1,5 @@
 Name:		pciutils
-Version:	3.1.1
+Version:	3.1.2
 Release: 	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -112,6 +112,10 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Feb 17 2009 Michal Hlavinka <mhlavink@redhat.com> 3.1.2-1
+- version 3.1.2
+- fix for the syntax error checks in setpci argument parser
+
 * Wed Feb 04 2009 Michal Hlavinka <mhlavink@redhat.com> 3.1.1-1
 - version 3.1.1
 
