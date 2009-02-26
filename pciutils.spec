@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	2.2.10
-Release: 	3%{?dist}
+Release: 	4%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch0:		pciutils-strip.patch
 Patch1: 	pciutils-2.2.4-buf.patch
@@ -91,6 +91,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Feb 26 2009 Michal Hlavinka <mhlavink@redhat.com> 2.2.10-4
+- fix: lspci segfaults when pci.ids cannot be found (#487516)
+
 * Mon Sep 22 2008 Michal Hlavinka <mhlavink@redhat.com> 2.2.10-3
 - add support for Super-H (sh3,sh4) (#446600)
 - fix: broken -L in libpci.pc (#456469)

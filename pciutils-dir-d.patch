@@ -44,7 +44,7 @@ diff -up pciutils-2.2.9/lib/names.c.dird pciutils-2.2.9/lib/names.c
    a->hash_load_failed = 1;
    if (!(f = pci_open(a)))
 -    return 0;
-+    pci_new_load_name_list(a);
++    return pci_new_load_name_list(a);
    a->id_hash = pci_malloc(a, sizeof(struct id_entry *) * HASH_SIZE);
    memset(a->id_hash, 0, sizeof(struct id_entry *) * HASH_SIZE);
 -  err = id_parse_list(a, f, &lino);
