@@ -39,7 +39,7 @@ diff -up pciutils-3.0.0/lib/names-parse.c.dird pciutils-3.0.0/lib/names-parse.c
    if (!(f = pci_open(a)))
 -    return 0;
 -  err = id_parse_list(a, f, &lino);
-+    return eci_new_load_name_list(a);
++    return pci_new_load_name_list(a);
 +  err = id_parse_list(a, f, &lino, 0);
    PCI_ERROR(f, err);
    pci_close(f);

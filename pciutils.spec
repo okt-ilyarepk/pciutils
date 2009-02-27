@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.1.2
-Release: 	3%{?dist}
+Release: 	4%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch1: 	pciutils-2.2.4-buf.patch
 Patch2:		pciutils-2.1.10-scan.patch
@@ -112,6 +112,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Feb 27 2009 Michal Hlavinka <mhlaivnk@redhat.com> - 3.1.2-4
+- fix typo & rebuild
+
 * Fri Feb 27 2009 Michal Hlavinka <mhlaivnk@redhat.com> - 3.1.2-3
 - fix: lspci segfaults when pci.ids cannot be found (#487516)
 
