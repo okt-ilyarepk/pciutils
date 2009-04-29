@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.1.2
-Release: 	4%{?dist}
+Release: 	5%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch1: 	pciutils-2.2.4-buf.patch
 Patch2:		pciutils-2.1.10-scan.patch
@@ -10,6 +10,7 @@ Patch8: 	pciutils-3.0.2-multilib.patch
 Patch9: 	pciutils-dir-d.patch
 Patch10:	pciutils-2.2.10-sparc-support.patch
 Patch11:	pciutils-3.0.1-superh-support.patch
+Patch12:	pciutils-3.1.2-arm.patch
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -52,6 +53,7 @@ devices connected to the PCI bus.
 %patch9 -p1 -b .dird
 %patch10 -p1 -b .sparc
 %patch11 -p1 -b .superh
+%patch12 -p1 -b .arm
 
 sed -i -e 's/^SRC=.*/SRC="http:\/\/pciids.sourceforge.net\/pci.ids"/' update-pciids.sh
 
@@ -112,6 +114,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Apr 29 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.2-5
+- add support for ARM
+
 * Fri Feb 27 2009 Michal Hlavinka <mhlaivnk@redhat.com> - 3.1.2-4
 - fix typo & rebuild
 
