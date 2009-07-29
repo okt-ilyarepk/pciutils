@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	3.1.2
-Release: 	6%{?dist}
+Version:	3.1.3
+Release: 	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch1: 	pciutils-2.2.4-buf.patch
 Patch2:		pciutils-2.1.10-scan.patch
@@ -114,6 +114,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jul 29 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.3-1
+- updated to 3.1.3
+
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
