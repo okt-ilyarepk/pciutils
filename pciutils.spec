@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.1.4
-Release: 	1%{?dist}
+Release: 	2%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch1: 	pciutils-2.2.4-buf.patch
 Patch2:		pciutils-2.1.10-scan.patch
@@ -98,7 +98,7 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %defattr(0644, root, root, 0755)
 %{_mandir}/man8/*
 %attr(0755, root, root) /sbin/*
-%doc README ChangeLog pciutils.lsm
+%doc README ChangeLog pciutils.lsm COPYING
 
 %files libs
 %{_libdir}/libpci.so.*
@@ -114,6 +114,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Sep 01 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-2
+- add COPYING to docs
+
 * Tue Sep 01 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-1
 - updated to 3.1.4
 
