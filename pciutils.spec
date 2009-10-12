@@ -2,15 +2,30 @@ Name:		pciutils
 Version:	3.1.4
 Release: 	3%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
+
+#truncate too long names (#205948)
 Patch1: 	pciutils-2.2.4-buf.patch
+
+#don't segfault on systems without PCI bus (#84146)
 Patch2:		pciutils-2.1.10-scan.patch
+
+#use pread/pwrite, ifdef check is obsolete nowadays
 Patch3: 	pciutils-havepread.patch
+
+#change pci.ids directory to hwdata
 Patch6: 	pciutils-2.2.1-idpath.patch
+
+#multilib support
 Patch8: 	pciutils-3.0.2-multilib.patch
+
+#add support for directory with another pci.ids
 Patch9: 	pciutils-dir-d.patch
+
+#platform support 3x
 Patch10:	pciutils-2.2.10-sparc-support.patch
 Patch11:	pciutils-3.0.1-superh-support.patch
 Patch12:	pciutils-3.1.2-arm.patch
+
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
