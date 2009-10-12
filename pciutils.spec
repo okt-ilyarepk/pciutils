@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.1.4
-Release: 	2%{?dist}
+Release: 	3%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Patch1: 	pciutils-2.2.4-buf.patch
 Patch2:		pciutils-2.1.10-scan.patch
@@ -43,6 +43,15 @@ Group: System Environment/Libraries
 This package contains a library for inspecting and setting
 devices connected to the PCI bus.
 
+%package devel-static
+Summary: Linux PCI static library
+Group: System Environment/Libraries
+Requires: %{name}-devel = %{version}-%{release}
+
+%description devel-static
+This package contains a static library for inspecting and setting
+devices connected to the PCI bus.
+
 %prep
 %setup -q -n pciutils-%{version}
 %patch1 -p1 -b .buf
@@ -55,7 +64,7 @@ devices connected to the PCI bus.
 %patch11 -p1 -b .superh
 %patch12 -p1 -b .arm
 
-sed -i -e 's/^SRC=.*/SRC="http:\/\/pciids.sourceforge.net\/pci.ids"/' update-pciids.sh
+sed -i -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' update-pciids.sh
 
 %build
 make SHARED="no" ZLIB="no" STRIP="" OPT="$RPM_OPT_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
@@ -103,10 +112,12 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %files libs
 %{_libdir}/libpci.so.*
 
+%files devel-static
+%{_libdir}/libpci.a
+
 %files devel
 %defattr(0644, root, root, 0755)
 %{_libdir}/pkgconfig/libpci.pc
-%{_libdir}/libpci.a
 %{_libdir}/libpci.so
 %{_includedir}/pci
 
@@ -114,7 +125,10 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Tue Sep 01 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-1
+* Mon Oct 12 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-3
+- don't ship static library in -devel sub-package
+
+* Tue Sep 01 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-2
 - add COPYING to docs
 
 * Tue Sep 01 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-1
