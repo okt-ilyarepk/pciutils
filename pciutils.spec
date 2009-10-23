@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.1.4
-Release: 	3%{?dist}
+Release: 	4%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 
 #truncate too long names (#205948)
@@ -140,6 +140,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Oct 23 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-4
+- use direct hardware access method for 64bit architectures
+
 * Mon Oct 12 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-3
 - don't ship static library in -devel sub-package
 
