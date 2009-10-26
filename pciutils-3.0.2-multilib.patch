@@ -1,7 +1,7 @@
-diff -up pciutils-3.0.2/lib/configure.multilib pciutils-3.0.2/lib/configure
---- pciutils-3.0.2/lib/configure.multilib	2008-09-19 20:04:37.000000000 +0200
-+++ pciutils-3.0.2/lib/configure	2008-09-22 10:35:58.964527560 +0200
-@@ -45,29 +45,62 @@ sys=`echo $host | sed 's/^\([^-]*\)-\([^
+diff -up pciutils-3.1.4/lib/configure.multilib pciutils-3.1.4/lib/configure
+--- pciutils-3.1.4/lib/configure.multilib	2009-08-10 16:28:53.000000000 +0200
++++ pciutils-3.1.4/lib/configure	2009-10-23 17:51:57.272127815 +0200
+@@ -50,29 +50,64 @@ sys=`echo $host | sed 's/^\([^-]*\)-\([^
  echo " $host $rel $cpu $sys"
  
  c=config.h
@@ -15,8 +15,10 @@ diff -up pciutils-3.0.2/lib/configure.multilib pciutils-3.0.2/lib/configure
 +#define PCI_CONFIG_H
 +#if defined(__x86_64__)
 +#define PCI_ARCH_X86_64
++#define PCI_HAVE_PM_INTEL_CONF
 +#elif defined(__ia64__)
 +#define PCI_ARCH_IA64
++#define PCI_HAVE_PM_INTEL_CONF
 +#elif defined(__i386__)
 +#define PCI_ARCH_I386
 +#define PCI_HAVE_PM_INTEL_CONF
@@ -74,7 +76,7 @@ diff -up pciutils-3.0.2/lib/configure.multilib pciutils-3.0.2/lib/configure
  		;;
  	sunos)
  		case $cpu in
-@@ -123,7 +156,7 @@ case $sys in
+@@ -130,7 +165,7 @@ case $sys in
  		;;
  esac
  
@@ -83,7 +85,7 @@ diff -up pciutils-3.0.2/lib/configure.multilib pciutils-3.0.2/lib/configure
  echo " dump"
  
  echo_n "Checking for zlib support... "
-@@ -146,6 +179,7 @@ else
+@@ -153,6 +188,7 @@ else
  	echo >>$c '#define PCI_IDS "pci.ids"'
  fi
  echo >>$c "#define PCI_PATH_IDS_DIR \"$IDSDIR\""
@@ -91,7 +93,7 @@ diff -up pciutils-3.0.2/lib/configure.multilib pciutils-3.0.2/lib/configure
  
  echo_n "Checking for DNS support... "
  if [ "$DNS" = yes -o "$DNS" = no ] ; then
-@@ -160,6 +194,7 @@ else
+@@ -167,6 +203,7 @@ else
  fi
  if [ "$DNS" = yes ] ; then
  	echo >>$c "#define PCI_USE_DNS"
@@ -99,7 +101,7 @@ diff -up pciutils-3.0.2/lib/configure.multilib pciutils-3.0.2/lib/configure
  	echo >>$c "#define PCI_ID_DOMAIN \"pci.id.ucw.cz\""
  	echo >>$m "WITH_LIBS+=$LIBRESOLV"
  fi
-@@ -182,4 +217,5 @@ fi
+@@ -189,4 +226,5 @@ fi
  echo >>$m 'PCILIBPC=$(LIBNAME).pc'
  
  echo >>$c "#define PCILIB_VERSION \"$VERSION\""
