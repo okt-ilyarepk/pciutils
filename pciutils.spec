@@ -1,16 +1,31 @@
 Name:		pciutils
 Version:	3.1.4
-Release: 	2%{?dist}
+Release: 	3%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
+
+#truncate too long names (#205948)
 Patch1: 	pciutils-2.2.4-buf.patch
+
+#don't segfault on systems without PCI bus (#84146)
 Patch2:		pciutils-2.1.10-scan.patch
+
+#use pread/pwrite, ifdef check is obsolete nowadays
 Patch3: 	pciutils-havepread.patch
+
+#change pci.ids directory to hwdata
 Patch6: 	pciutils-2.2.1-idpath.patch
+
+#multilib support
 Patch8: 	pciutils-3.0.2-multilib.patch
+
+#add support for directory with another pci.ids
 Patch9: 	pciutils-dir-d.patch
+
+#platform support 3x
 Patch10:	pciutils-2.2.10-sparc-support.patch
 Patch11:	pciutils-3.0.1-superh-support.patch
 Patch12:	pciutils-3.1.2-arm.patch
+
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -55,7 +70,7 @@ devices connected to the PCI bus.
 %patch11 -p1 -b .superh
 %patch12 -p1 -b .arm
 
-sed -i -e 's/^SRC=.*/SRC="http:\/\/pciids.sourceforge.net\/pci.ids"/' update-pciids.sh
+sed -i -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' update-pciids.sh
 
 %build
 make SHARED="no" ZLIB="no" STRIP="" OPT="$RPM_OPT_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
@@ -114,6 +129,10 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Oct 26 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-3
+- fix build to enable -F option (#531020)
+- enable direct hardware access method for 64bit architectures
+
 * Tue Sep 01 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-2
 - add COPYING to docs
 
