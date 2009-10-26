@@ -76,15 +76,6 @@ diff -up pciutils-3.1.4/lib/configure.multilib pciutils-3.1.4/lib/configure
  		;;
  	sunos)
  		case $cpu in
-@@ -130,7 +165,7 @@ case $sys in
- 		;;
- esac
- 
--echo >>$c '#define PCI_HAVE_PM_DUMP'
-+echo >>$cm '#define PCI_HAVE_PM_DUMP'
- echo " dump"
- 
- echo_n "Checking for zlib support... "
 @@ -153,6 +188,7 @@ else
  	echo >>$c '#define PCI_IDS "pci.ids"'
  fi
