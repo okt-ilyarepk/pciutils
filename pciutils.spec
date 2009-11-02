@@ -145,8 +145,8 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Oct 26 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-5
 - fix build to enable -F option (#531020)
 
-* Fri Oct 23 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-4
-- use direct hardware access method for 64bit architectures
+* Mon Oct 26 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-4
+- enable direct hardware access method for 64bit architectures
 
 * Mon Oct 12 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-3
 - don't ship static library in -devel sub-package
