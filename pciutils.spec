@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	3.1.4
-Release:	6%{?dist}
+Version:	3.1.6
+Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 
 #truncate too long names (#205948)
@@ -142,6 +142,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Jan 25 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-1
+- updated to 3.1.6
+
 * Mon Nov 02 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-6
 - spec cleanup
 
