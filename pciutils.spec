@@ -1,25 +1,25 @@
 Name:		pciutils
-Version:	3.1.4
-Release: 	3%{?dist}
+Version:	3.1.6
+Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 
 #truncate too long names (#205948)
-Patch1: 	pciutils-2.2.4-buf.patch
+Patch1:		pciutils-2.2.4-buf.patch
 
 #don't segfault on systems without PCI bus (#84146)
 Patch2:		pciutils-2.1.10-scan.patch
 
 #use pread/pwrite, ifdef check is obsolete nowadays
-Patch3: 	pciutils-havepread.patch
+Patch3:		pciutils-havepread.patch
 
 #change pci.ids directory to hwdata
-Patch6: 	pciutils-2.2.1-idpath.patch
+Patch6:		pciutils-2.2.1-idpath.patch
 
 #multilib support
-Patch8: 	pciutils-3.0.2-multilib.patch
+Patch8:		pciutils-3.0.2-multilib.patch
 
 #add support for directory with another pci.ids
-Patch9: 	pciutils-dir-d.patch
+Patch9:		pciutils-dir-d.patch
 
 #platform support 3x
 Patch10:	pciutils-2.2.10-sparc-support.patch
@@ -28,8 +28,8 @@ Patch12:	pciutils-3.1.2-arm.patch
 
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
-BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-ExclusiveOS: 	Linux
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+ExclusiveOS:	Linux
 Requires:	hwdata
 BuildRequires:	sed
 Summary: PCI bus related utilities
@@ -97,7 +97,7 @@ install -p  lib/libpci.so.*.*.* $RPM_BUILD_ROOT%{_libdir}
 ln -s $(basename $RPM_BUILD_ROOT%{_libdir}/*.so.*.*.*) $RPM_BUILD_ROOT%{_libdir}/libpci.so
 
 mv lib/libpci.a.toinstall lib/libpci.a
-install -p lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
+install -p -m 644 lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
 /sbin/ldconfig -N $RPM_BUILD_ROOT%{_libdir}
 install -p lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
@@ -111,11 +111,12 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 
 %files
 %defattr(0644, root, root, 0755)
+%doc README ChangeLog pciutils.lsm COPYING
 %{_mandir}/man8/*
 %attr(0755, root, root) /sbin/*
-%doc README ChangeLog pciutils.lsm COPYING
 
 %files libs
+%defattr(-,root,root,-)
 %{_libdir}/libpci.so.*
 
 %files devel
@@ -129,6 +130,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Jan 25 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-1
+- updated to 3.1.6
+
 * Mon Oct 26 2009 Michal Hlavinka <mhlavink@redhat.com> - 3.1.4-3
 - fix build to enable -F option (#531020)
 - enable direct hardware access method for 64bit architectures
