@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.1.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 
 #truncate too long names (#205948)
@@ -12,13 +12,13 @@ Patch2:		pciutils-2.1.10-scan.patch
 #use pread/pwrite, ifdef check is obsolete nowadays
 Patch3:		pciutils-havepread.patch
 
-#change pci.ids directory to hwdata
+#change pci.ids directory to hwdata, fedora/rhel specific
 Patch6:		pciutils-2.2.1-idpath.patch
 
 #multilib support
 Patch8:		pciutils-3.0.2-multilib.patch
 
-#add support for directory with another pci.ids
+#add support for directory with another pci.ids, rejected by upstream, rhbz#195327
 Patch9:		pciutils-dir-d.patch
 
 #platform support 3x
@@ -87,27 +87,26 @@ mv lib/libpci.a lib/libpci.a.toinstall
 
 make clean
 
-make SHARED="yes" ZLIB="no" STRIP="" OPT="$RPM_OPT_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
+make SHARED="yes" ZLIB="no" STRIP="" OPT="$RPM_OPT_FLAGS" PREFIX="/usr" LIBDIR="/%{_lib}" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
 
 #fix lib vs. lib64 in libpci.pc (static Makefile is used)
-mv lib/libpci.pc lib/libpci.pc.old
-sed <lib/libpci.pc.old >lib/libpci.pc "s|^libdir=.*$|libdir=%{_libdir}|"
-rm lib/libpci.pc.old
+sed -i "s|^libdir=.*$|libdir=/%{_lib}|" lib/libpci.pc
 
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/{sbin,%{_mandir}/man8,%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
+install -d $RPM_BUILD_ROOT/{sbin,%{_bindir},%{_lib},%{_mandir}/man8,%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
 
-install -p lspci setpci update-pciids $RPM_BUILD_ROOT/sbin
+install -p lspci setpci $RPM_BUILD_ROOT/sbin
+install -p update-pciids $RPM_BUILD_ROOT/%{_bindir}
 install -p lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
-install -p  lib/libpci.so.*.*.* $RPM_BUILD_ROOT%{_libdir}
-ln -s $(basename $RPM_BUILD_ROOT%{_libdir}/*.so.*.*.*) $RPM_BUILD_ROOT%{_libdir}/libpci.so
+install -p lib/libpci.so.* $RPM_BUILD_ROOT/%{_lib}/
+ln -s ../../%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/*.so.*.*.*) $RPM_BUILD_ROOT%{_libdir}/libpci.so
 
 mv lib/libpci.a.toinstall lib/libpci.a
 install -p -m 644 lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
-/sbin/ldconfig -N $RPM_BUILD_ROOT%{_libdir}
+/sbin/ldconfig -N $RPM_BUILD_ROOT/%{_lib}
 install -p lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
@@ -119,14 +118,16 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %postun libs -p /sbin/ldconfig
 
 %files
-%defattr(0644, root, root, 0755)
+%defattr(-,root,root,-)
 %doc README ChangeLog pciutils.lsm COPYING
+/sbin/lspci
+/sbin/setpci
+%{_bindir}/update-pciids
 %{_mandir}/man8/*
-%attr(0755, root, root) /sbin/*
 
 %files libs
 %defattr(-,root,root,-)
-%{_libdir}/libpci.so.*
+/%{_lib}/libpci.so.*
 
 %files devel-static
 %defattr(-,root,root,-)
@@ -142,6 +143,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Feb 03 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-2
+- libpci moved to /lib
+
 * Mon Jan 25 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-1
 - updated to 3.1.6
 
