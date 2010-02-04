@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.1.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 
 #truncate too long names (#205948)
@@ -100,7 +100,7 @@ install -d $RPM_BUILD_ROOT/{sbin,%{_bindir},%{_lib},%{_mandir}/man8,%{_libdir},%
 
 install -p lspci setpci $RPM_BUILD_ROOT/sbin
 install -p update-pciids $RPM_BUILD_ROOT/%{_bindir}
-install -p lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
+install -p -m 644 lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
 install -p lib/libpci.so.* $RPM_BUILD_ROOT/%{_lib}/
 ln -s ../../%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/*.so.*.*.*) $RPM_BUILD_ROOT%{_libdir}/libpci.so
 
@@ -143,6 +143,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Feb 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-3
+- spec cleanup
+
 * Wed Feb 03 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-2
 - libpci moved to /lib
 
