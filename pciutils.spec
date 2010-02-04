@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.1.6
-Release:	3%{?dist}
+Release:	4%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 
 #truncate too long names (#205948)
@@ -96,10 +96,10 @@ sed -i "s|^libdir=.*$|libdir=/%{_lib}|" lib/libpci.pc
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/{sbin,%{_bindir},%{_lib},%{_mandir}/man8,%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
+install -d $RPM_BUILD_ROOT/{sbin,%{_sbindir},%{_lib},%{_mandir}/man8,%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
 
 install -p lspci setpci $RPM_BUILD_ROOT/sbin
-install -p update-pciids $RPM_BUILD_ROOT/%{_bindir}
+install -p update-pciids $RPM_BUILD_ROOT/%{_sbindir}
 install -p -m 644 lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
 install -p lib/libpci.so.* $RPM_BUILD_ROOT/%{_lib}/
 ln -s ../../%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/*.so.*.*.*) $RPM_BUILD_ROOT%{_libdir}/libpci.so
@@ -122,7 +122,7 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %doc README ChangeLog pciutils.lsm COPYING
 /sbin/lspci
 /sbin/setpci
-%{_bindir}/update-pciids
+%{_sbindir}/update-pciids
 %{_mandir}/man8/*
 
 %files libs
@@ -143,6 +143,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Feb 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-4
+- move update-pciids
+
 * Thu Feb 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-3
 - spec cleanup
 
