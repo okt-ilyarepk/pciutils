@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	3.1.6
-Release:	4%{?dist}
+Version:	3.1.7
+Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 
 #truncate too long names (#205948)
@@ -126,6 +126,7 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %{_mandir}/man8/*
 
 %files libs
+%doc COPYING
 %defattr(-,root,root,-)
 /%{_lib}/libpci.so.*
 
@@ -143,6 +144,12 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Aug 30 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.7-1
+- updated to 3.1.7
+
+* Fri Jul 07 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-5
+- follow licensing guideline update
+
 * Thu Feb 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-4
 - move update-pciids
 
