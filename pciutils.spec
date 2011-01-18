@@ -1,7 +1,8 @@
 Name:		pciutils
 Version:	3.1.7
-Release:	2%{?dist}
+Release:	3%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
+Source1:        multilibconfigh
 
 #truncate too long names (#205948)
 Patch1:		pciutils-2.2.4-buf.patch
@@ -97,7 +98,8 @@ install -p -m 644 lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
 /sbin/ldconfig -N $RPM_BUILD_ROOT/%{_lib}
 install -p lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
-install -p lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci
+install -p %{SOURCE1} $RPM_BUILD_ROOT%{_includedir}/pci/config.h
+install -p lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci/config.%{_lib}.h
 install -p lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 
@@ -132,6 +134,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jan 18 2011 Michal Hlavinka <mhlavink@redhat.com> - 3.1.7-3
+- different approach to fix multilib issues
+
 * Mon Jan 10 2011 Michal Hlavinka <mhlavink@redhat.com> - 3.1.7-2
 - removed obsolete patches
 
