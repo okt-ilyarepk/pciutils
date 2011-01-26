@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.1.7
-Release:	3%{?dist}
+Release:	4%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
 
@@ -134,6 +134,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Jan 26 2011 Dan Horák <dan[at]danny.cz> - 3.1.7-4
+- fix the multilib header on s390x
+
 * Tue Jan 18 2011 Michal Hlavinka <mhlavink@redhat.com> - 3.1.7-3
 - different approach to fix multilib issues
 
