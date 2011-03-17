@@ -50,7 +50,7 @@ diff -up pciutils-3.0.0/lib/names-parse.c.dird pciutils-3.0.0/lib/names-parse.c
    return 1;
  }
  
-@@ -249,3 +253,48 @@ pci_set_name_list_path(struct pci_access
+@@ -249,3 +253,49 @@ pci_set_name_list_path(struct pci_access
    a->id_file_name = name;
    a->free_id_name = to_be_freed;
  }
@@ -97,6 +97,7 @@ diff -up pciutils-3.0.0/lib/names-parse.c.dird pciutils-3.0.0/lib/names-parse.c
 +            }
 +       }
 +    }while (dp != NULL);
++  closedir(pci_ids_dir);
 +  return 1;
 +}   
 diff -up pciutils-3.0.0/lib/pci.h.dird pciutils-3.0.0/lib/pci.h

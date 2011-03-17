@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.1.7
-Release:	5%{?dist}
+Release:	6%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
 
@@ -134,6 +134,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Mar 17 2011 Michal Hlavinka <mhlavink@redhat.com> - 3.1.7-6
+- don't forget to close pci.ids directory
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.7-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
