@@ -1,23 +1,14 @@
 Name:		pciutils
-Version:	3.1.7
-Release:	6%{?dist}
+Version:	3.1.8
+Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
 
-#truncate too long names (#205948)
-Patch1:		pciutils-2.2.4-buf.patch
-
-#don't segfault on systems without PCI bus (#84146)
-Patch2:		pciutils-2.1.10-scan.patch
-
-#use pread/pwrite, ifdef check is obsolete nowadays
-Patch3:		pciutils-havepread.patch
-
 #change pci.ids directory to hwdata, fedora/rhel specific
-Patch6:		pciutils-2.2.1-idpath.patch
+Patch1:		pciutils-2.2.1-idpath.patch
 
 #add support for directory with another pci.ids, rejected by upstream, rhbz#195327
-Patch9:		pciutils-dir-d.patch
+Patch2:		pciutils-dir-d.patch
 
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -62,11 +53,8 @@ devices connected to the PCI bus.
 
 %prep
 %setup -q -n pciutils-%{version}
-%patch1 -p1 -b .buf
-%patch2 -p1 -b .scan
-%patch3 -p1 -b .pread
-%patch6 -p1 -b .idpath
-%patch9 -p1 -b .dird
+%patch1 -p1 -b .idpath
+%patch2 -p1 -b .dird
 
 sed -i -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' update-pciids.sh
 
@@ -134,6 +122,10 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Oct 03 2011 Michal Hlavinka <mhlavink@redhat.com> - 3.1.8-1
+- updated to 3.1.8
+- updated to 3.1.8
+
 * Thu Mar 17 2011 Michal Hlavinka <mhlavink@redhat.com> - 3.1.7-6
 - don't forget to close pci.ids directory
 
