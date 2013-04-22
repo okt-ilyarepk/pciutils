@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	3.1.10
-Release:	3%{?dist}
+Version:	3.2.0
+Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
 
@@ -122,6 +122,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Apr 22 2013 Michal Hlavinka <mhlavink@redhat.com> - 3.2.0-1
+- updated to 3.2.0
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.10-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
