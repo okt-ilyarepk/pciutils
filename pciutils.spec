@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
 
@@ -122,6 +122,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri May 31 2013 Michal Hlavinka <mhlavink@redhat.com> - 3.2.0-2
+- add aarch64 support (#969138)
+
 * Mon Apr 22 2013 Michal Hlavinka <mhlavink@redhat.com> - 3.2.0-1
 - updated to 3.2.0
 
