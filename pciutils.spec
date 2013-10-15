@@ -15,6 +15,7 @@ URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 ExclusiveOS:	Linux
 Requires:	hwdata
+Requires:	%{name}-libs = %{version}-%{release}
 BuildRequires:	sed
 Summary: PCI bus related utilities
 Group: Applications/System
@@ -164,7 +165,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Aug 30 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.7-1
 - updated to 3.1.7
 
-* Fri Jul 07 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-5
+* Wed Jul 07 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-5
 - follow licensing guideline update
 
 * Thu Feb 04 2010 Michal Hlavinka <mhlavink@redhat.com> - 3.1.6-4
@@ -404,7 +405,7 @@ print out 64-bit addresses.
 - own /usr/include/pci
 - build library with -fPIC
 
-* Thu Jul  8 2002 Bill Nottingham <notting@redhat.com> 2.1.10-2
+* Mon Jul  8 2002 Bill Nottingham <notting@redhat.com> 2.1.10-2
 - don't build with -fomit-frame-pointer
 
 * Mon Jun 24 2002 Bill Nottingham <notting@redhat.com> 2.1.10-1
