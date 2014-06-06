@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.2.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
 
@@ -123,6 +123,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jun 06 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Tue Apr 15 2014 Michal Hlavinka <mhlavink@redhat.com> - 3.2.1-2
 - enable libkmod support (#1087862)
 
