@@ -1,5 +1,5 @@
 Name:		pciutils
-Version:	3.2.1
+Version:	3.3.0
 Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
@@ -123,6 +123,12 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Wed Nov 12 2014 Michal Hlavinka <mhlavink@redhat.com> - 3.3.0-1
+- updated to 3.3.0
+- updated to 3.3.0
+- updated to 3.3.0
+- updated to 3.3.0
+
 * Sat Nov 16 2013 Michal Hlavinka <mhlavink@redhat.com> - 3.2.1-1
 - updated to 3.2.1
 
