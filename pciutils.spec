@@ -1,5 +1,5 @@
 Name:		pciutils
-Version:	3.4.0
+Version:	3.4.1
 Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
@@ -123,8 +123,10 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue Jan 05 2016 Michal Hlavinka <mhlavink@redhat.com> - 3.4.1-1
+- pciutils updated to 3.4.1
+
 * Tue Sep 15 2015 Michal Hlavinka <mhlavink@redhat.com> - 3.4.0-1
-- pciutils updated to 3.4.0
 - pciutils updated to 3.4.0
 
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.3.1-2
