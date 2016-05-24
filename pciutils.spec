@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	3.4.1
-Release:	2%{?dist}
+Version:	3.5.1
+Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
 
@@ -123,6 +123,12 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Tue May 24 2016 Michal Hlavinka <mhlavink@redhat.com> - 3.5.1-1
+- pciutils updated to 3.5.1
+
+* Fri May 20 2016 Michal Hlavinka <mhlavink@redhat.com> - 3.5.0-1
+- pciutils updated to 3.5.0
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
