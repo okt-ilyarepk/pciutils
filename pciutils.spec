@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.5.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
 
@@ -123,6 +123,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Aug 11 2016 Michal Toman <mtoman@fedoraproject.org> - 3.5.1-2
+- Add support for MIPS to multilibconfigh
+
 * Tue May 24 2016 Michal Hlavinka <mhlavink@redhat.com> - 3.5.1-1
 - pciutils updated to 3.5.1
 
