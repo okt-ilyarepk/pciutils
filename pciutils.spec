@@ -22,9 +22,7 @@ Group: Applications/System
 
 %description
 The pciutils package contains various utilities for inspecting and
-setting devices connected to the PCI bus. The utilities provided
-require kernel version 2.1.82 or newer (which support the
-/proc/bus/pci interface).
+setting devices connected to the PCI bus.
 
 %package devel
 Summary: Linux PCI development library
