@@ -1,5 +1,5 @@
 Name:		pciutils
-Version:	3.5.2
+Version:	3.5.4
 Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
@@ -22,9 +22,7 @@ Group: Applications/System
 
 %description
 The pciutils package contains various utilities for inspecting and
-setting devices connected to the PCI bus. The utilities provided
-require kernel version 2.1.82 or newer (which support the
-/proc/bus/pci interface).
+setting devices connected to the PCI bus.
 
 %package devel
 Summary: Linux PCI development library
@@ -123,6 +121,12 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Feb 27 2017 Michal Hlavinka <mhlavink@redhat.com> - 3.5.4-1
+- pciutils updated to 3.5.4
+
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Tue Oct 04 2016 Michal Hlavinka <mhlavink@redhat.com> - 3.5.2-1
 - pciutils updated to 3.5.2
 
