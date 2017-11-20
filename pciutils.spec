@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	3.5.5
-Release:	3%{?dist}
+Version:	3.5.6
+Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
 
@@ -54,8 +54,6 @@ devices connected to the PCI bus.
 %setup -q -n pciutils-%{version}
 %patch1 -p1 -b .idpath
 %patch2 -p1 -b .dird
-
-sed -i -e 's|^SRC=.*|SRC="http://pciids.sourceforge.net/pci.ids"|' update-pciids.sh
 
 %build
 make SHARED="no" ZLIB="no" LIBKMOD=yes STRIP="" OPT="$RPM_OPT_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
@@ -121,6 +119,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Mon Nov 20 2017 Michal Hlavinka <mhlavink@redhat.com> - 3.5.6-1
+- pciutils updated to 3.5.6
+
 * Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.5-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
