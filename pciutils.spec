@@ -12,7 +12,6 @@ Patch2:		pciutils-dir-d.patch
 
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 ExclusiveOS:	Linux
 Requires:	hwdata
 Requires:	%{name}-libs = %{version}-%{release}
