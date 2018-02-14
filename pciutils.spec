@@ -114,9 +114,6 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %{_libdir}/libpci.so
 %{_includedir}/pci
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %changelog
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
