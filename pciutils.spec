@@ -1,5 +1,5 @@
 Name:		pciutils
-Version:	3.5.6
+Version:	3.6.0
 Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
@@ -12,11 +12,10 @@ Patch2:		pciutils-dir-d.patch
 
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 ExclusiveOS:	Linux
 Requires:	hwdata
 Requires:	%{name}-libs = %{version}-%{release}
-BuildRequires:	sed kmod-devel
+BuildRequires:	gcc sed kmod-devel
 Summary: PCI bus related utilities
 Group: Applications/System
 
@@ -56,12 +55,12 @@ devices connected to the PCI bus.
 %patch2 -p1 -b .dird
 
 %build
-make SHARED="no" ZLIB="no" LIBKMOD=yes STRIP="" OPT="$RPM_OPT_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
+make SHARED="no" ZLIB="no" LIBKMOD=yes STRIP="" OPT="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
 mv lib/libpci.a lib/libpci.a.toinstall
 
 make clean
 
-make SHARED="yes" ZLIB="no" LIBKMOD=yes STRIP="" OPT="$RPM_OPT_FLAGS" PREFIX="/usr" LIBDIR="/%{_lib}" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
+make SHARED="yes" ZLIB="no" LIBKMOD=yes STRIP="" OPT="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" PREFIX="/usr" LIBDIR="/%{_lib}" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
 
 #fix lib vs. lib64 in libpci.pc (static Makefile is used)
 sed -i "s|^libdir=.*$|libdir=/%{_lib}|" lib/libpci.pc
@@ -115,10 +114,20 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %{_libdir}/libpci.so
 %{_includedir}/pci
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %changelog
+* Mon Jul 09 2018 Michal Hlavinka <mhlavink@redhat.com> - 3.6.0-1
+- updated to 3.6.0
+- pciutils updated to 3.6.0
+
+* Wed Mar 07 2018 Michal Hlavinka <mhlavink@redhat.com> - 3.5.6-4
+- add gcc buildrequire
+
+* Sat Feb 24 2018 Florian Weimer <fweimer@redhat.com> - 3.5.6-3
+- Use LDFLAGS from redhat-rpm-config
+
+* Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.5.6-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Mon Nov 20 2017 Michal Hlavinka <mhlavink@redhat.com> - 3.5.6-1
 - pciutils updated to 3.5.6
 
