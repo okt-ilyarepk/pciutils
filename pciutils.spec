@@ -92,7 +92,6 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %postun libs -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root,-)
 %doc README ChangeLog pciutils.lsm COPYING
 /sbin/lspci
 /sbin/setpci
@@ -105,11 +104,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 /%{_lib}/libpci.so.*
 
 %files devel-static
-%defattr(-,root,root,-)
 %{_libdir}/libpci.a
 
 %files devel
-%defattr(0644, root, root, 0755)
 %{_libdir}/pkgconfig/libpci.pc
 %{_libdir}/libpci.so
 %{_includedir}/pci
