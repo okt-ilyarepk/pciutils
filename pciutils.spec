@@ -1,5 +1,5 @@
 Name:		pciutils
-Version:	3.6.0
+Version:	3.6.1
 Release:	1%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
@@ -92,7 +92,6 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %postun libs -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root,-)
 %doc README ChangeLog pciutils.lsm COPYING
 /sbin/lspci
 /sbin/setpci
@@ -105,18 +104,18 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 /%{_lib}/libpci.so.*
 
 %files devel-static
-%defattr(-,root,root,-)
 %{_libdir}/libpci.a
 
 %files devel
-%defattr(0644, root, root, 0755)
 %{_libdir}/pkgconfig/libpci.pc
 %{_libdir}/libpci.so
 %{_includedir}/pci
 
 %changelog
+* Fri Jul 13 2018 Michal Hlavinka <mhlavink@redhat.com> - 3.6.1-1
+- pciutils updated to 3.6.1
+
 * Mon Jul 09 2018 Michal Hlavinka <mhlavink@redhat.com> - 3.6.0-1
-- updated to 3.6.0
 - pciutils updated to 3.6.0
 
 * Wed Mar 07 2018 Michal Hlavinka <mhlavink@redhat.com> - 3.5.6-4
