@@ -87,9 +87,7 @@ install -p lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci/config.%{_lib}.h
 install -p lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 
-%post libs -p /sbin/ldconfig
-
-%postun libs -p /sbin/ldconfig
+%ldconfig_scriptlets libs
 
 %files
 %doc README ChangeLog pciutils.lsm COPYING
