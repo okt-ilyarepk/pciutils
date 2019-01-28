@@ -17,7 +17,6 @@ Requires:	hwdata
 Requires:	%{name}-libs = %{version}-%{release}
 BuildRequires:	gcc sed kmod-devel
 Summary: PCI bus related utilities
-Group: Applications/System
 
 %description
 The pciutils package contains various utilities for inspecting and
@@ -25,7 +24,6 @@ setting devices connected to the PCI bus.
 
 %package devel
 Summary: Linux PCI development library
-Group: Development/Libraries
 Requires: zlib-devel pkgconfig %{name} = %{version}-%{release}
 
 %description devel
@@ -34,7 +32,6 @@ devices connected to the PCI bus.
 
 %package libs
 Summary: Linux PCI library
-Group: System Environment/Libraries
 
 %description libs
 This package contains a library for inspecting and setting
@@ -42,7 +39,6 @@ devices connected to the PCI bus.
 
 %package devel-static
 Summary: Linux PCI static library
-Group: System Environment/Libraries
 Requires: %{name}-devel = %{version}-%{release}
 
 %description devel-static
