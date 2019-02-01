@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.6.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
 Source1:        multilibconfigh
 
@@ -106,6 +106,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %{_includedir}/pci
 
 %changelog
+* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Mon Aug 13 2018 Michal Hlavinka <mhlavink@redhat.com> - 3.6.2-1
 - pciutils updated to 3.6.2
 
