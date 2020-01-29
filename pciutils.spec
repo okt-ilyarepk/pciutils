@@ -1,6 +1,6 @@
 Name:		pciutils
 Version:	3.6.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	PCI bus related utilities
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -102,6 +102,9 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %{_includedir}/pci
 
 %changelog
+* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Wed Jan 22 2020 Peter Robinson <pbrobinson@fedoraproject.org> 3.6.3-1
 - pciutils updated to 3.6.3
 - spec cleanups, use %%license, use kernel.org download
