@@ -1,6 +1,6 @@
 Name:		pciutils
-Version:	3.6.3
-Release:	2%{?dist}
+Version:	3.6.4
+Release:	1%{?dist}
 Summary:	PCI bus related utilities
 License:	GPLv2+
 URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
@@ -61,11 +61,12 @@ sed -i "s|^libdir=.*$|libdir=/%{_lib}|" lib/libpci.pc
 
 
 %install
-install -d $RPM_BUILD_ROOT/{sbin,%{_sbindir},%{_lib},%{_mandir}/man8,%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
+install -d $RPM_BUILD_ROOT/{sbin,%{_sbindir},%{_lib},%{_mandir}/man{7,8},%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
 
 install -p lspci setpci $RPM_BUILD_ROOT/sbin
 install -p update-pciids $RPM_BUILD_ROOT/%{_sbindir}
 install -p -m 644 lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
+install -p -m 644 pcilib.7 $RPM_BUILD_ROOT%{_mandir}/man7
 install -p lib/libpci.so.* $RPM_BUILD_ROOT/%{_lib}/
 ln -s ../../%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/*.so.*.*.*) $RPM_BUILD_ROOT%{_libdir}/libpci.so
 
@@ -100,8 +101,12 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/libpci.pc
 %{_libdir}/libpci.so
 %{_includedir}/pci
+%{_mandir}/man7/*
 
 %changelog
+* Fri Feb 28 2020 Michal Hlavinka <mhlavink@redhat.com> - 3.6.4-1
+- pciutils updated to 3.6.4
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
