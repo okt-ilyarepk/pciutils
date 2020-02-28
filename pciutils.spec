@@ -1,8 +1,12 @@
 Name:		pciutils
-Version:	3.6.2
-Release:	2%{?dist}
-Source:		ftp://atrey.karlin.mff.cuni.cz/pub/linux/pci/%{name}-%{version}.tar.gz
-Source1:        multilibconfigh
+Version:	3.6.4
+Release:	1%{?dist}
+Summary:	PCI bus related utilities
+License:	GPLv2+
+URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
+
+Source:		https://mirrors.edge.kernel.org/pub/software/utils/pciutils/%{name}-%{version}.tar.xz
+Source1:	multilibconfigh
 
 #change pci.ids directory to hwdata, fedora/rhel specific
 Patch1:		pciutils-2.2.1-idpath.patch
@@ -10,13 +14,9 @@ Patch1:		pciutils-2.2.1-idpath.patch
 #add support for directory with another pci.ids, rejected by upstream, rhbz#195327
 Patch2:		pciutils-dir-d.patch
 
-License:	GPLv2+
-URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
-ExclusiveOS:	Linux
 Requires:	hwdata
 Requires:	%{name}-libs = %{version}-%{release}
 BuildRequires:	gcc sed kmod-devel
-Summary: PCI bus related utilities
 
 %description
 The pciutils package contains various utilities for inspecting and
@@ -46,9 +46,7 @@ This package contains a static library for inspecting and setting
 devices connected to the PCI bus.
 
 %prep
-%setup -q -n pciutils-%{version}
-%patch1 -p1 -b .idpath
-%patch2 -p1 -b .dird
+%autosetup -p1
 
 %build
 make SHARED="no" ZLIB="no" LIBKMOD=yes STRIP="" OPT="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
@@ -63,13 +61,12 @@ sed -i "s|^libdir=.*$|libdir=/%{_lib}|" lib/libpci.pc
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
-install -d $RPM_BUILD_ROOT/{sbin,%{_sbindir},%{_lib},%{_mandir}/man8,%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
+install -d $RPM_BUILD_ROOT/{sbin,%{_sbindir},%{_lib},%{_mandir}/man{7,8},%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
 
 install -p lspci setpci $RPM_BUILD_ROOT/sbin
 install -p update-pciids $RPM_BUILD_ROOT/%{_sbindir}
 install -p -m 644 lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
+install -p -m 644 pcilib.7 $RPM_BUILD_ROOT%{_mandir}/man7
 install -p lib/libpci.so.* $RPM_BUILD_ROOT/%{_lib}/
 ln -s ../../%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/*.so.*.*.*) $RPM_BUILD_ROOT%{_libdir}/libpci.so
 
@@ -86,14 +83,14 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %ldconfig_scriptlets libs
 
 %files
-%doc README ChangeLog pciutils.lsm COPYING
+%doc README ChangeLog pciutils.lsm
 /sbin/lspci
 /sbin/setpci
 %{_sbindir}/update-pciids
 %{_mandir}/man8/*
 
 %files libs
-%doc COPYING
+%license COPYING
 %defattr(-,root,root,-)
 /%{_lib}/libpci.so.*
 
@@ -104,8 +101,22 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/libpci.pc
 %{_libdir}/libpci.so
 %{_includedir}/pci
+%{_mandir}/man7/*
 
 %changelog
+* Fri Feb 28 2020 Michal Hlavinka <mhlavink@redhat.com> - 3.6.4-1
+- pciutils updated to 3.6.4
+
+* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
+* Wed Jan 22 2020 Peter Robinson <pbrobinson@fedoraproject.org> 3.6.3-1
+- pciutils updated to 3.6.3
+- spec cleanups, use %%license, use kernel.org download
+
+* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
