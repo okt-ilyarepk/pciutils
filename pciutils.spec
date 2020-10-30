@@ -1,5 +1,5 @@
 Name:		pciutils
-Version:	3.6.4
+Version:	3.7.0
 Release:	1%{?dist}
 Summary:	PCI bus related utilities
 License:	GPLv2+
@@ -13,6 +13,7 @@ Patch1:		pciutils-2.2.1-idpath.patch
 
 #add support for directory with another pci.ids, rejected by upstream, rhbz#195327
 Patch2:		pciutils-dir-d.patch
+Patch3: 	pciutils-3.7.0-decodercec.patch
 
 Requires:	hwdata
 Requires:	%{name}-libs = %{version}-%{release}
@@ -104,6 +105,12 @@ install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 %{_mandir}/man7/*
 
 %changelog
+* Fri Oct 30 2020 Michal Hlavinka <mhlavink@redhat.com> - 3.7.0-1
+- updated to 3.7.0
+
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 3.6.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Fri Feb 28 2020 Michal Hlavinka <mhlavink@redhat.com> - 3.6.4-1
 - pciutils updated to 3.6.4
 
