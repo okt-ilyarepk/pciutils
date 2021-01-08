@@ -17,6 +17,7 @@ Patch3: 	pciutils-3.7.0-decodercec.patch
 
 Requires:	hwdata
 Requires:	%{name}-libs = %{version}-%{release}
+BuildRequires: make
 BuildRequires:	gcc sed kmod-devel
 
 %description
