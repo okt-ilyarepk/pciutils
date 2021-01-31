@@ -3,9 +3,9 @@ Version:	3.7.0
 Release:	2%{?dist}
 Summary:	PCI bus related utilities
 License:	GPLv2+
-URL:		http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
+URL:		https://mj.ucw.cz/sw/pciutils/
 
-Source:		https://mirrors.edge.kernel.org/pub/software/utils/pciutils/%{name}-%{version}.tar.xz
+Source0:	https://www.kernel.org/pub/software/utils/pciutils/%{name}-%{version}.tar.xz
 Source1:	multilibconfigh
 
 #change pci.ids directory to hwdata, fedora/rhel specific
@@ -17,8 +17,8 @@ Patch3: 	pciutils-3.7.0-decodercec.patch
 
 Requires:	hwdata
 Requires:	%{name}-libs = %{version}-%{release}
-BuildRequires: make
-BuildRequires:	gcc sed kmod-devel
+BuildRequires:	gcc make sed kmod-devel
+Provides:	/sbin/lspci /sbin/setpci
 
 %description
 The pciutils package contains various utilities for inspecting and
@@ -26,7 +26,7 @@ setting devices connected to the PCI bus.
 
 %package devel
 Summary: Linux PCI development library
-Requires: zlib-devel pkgconfig %{name} = %{version}-%{release}
+Requires: zlib-devel pkgconfig %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 This package contains a library for inspecting and setting
@@ -41,7 +41,7 @@ devices connected to the PCI bus.
 
 %package devel-static
 Summary: Linux PCI static library
-Requires: %{name}-devel = %{version}-%{release}
+Requires: %{name}-devel%{?_isa} = %{version}-%{release}
 
 %description devel-static
 This package contains a static library for inspecting and setting
@@ -51,50 +51,44 @@ devices connected to the PCI bus.
 %autosetup -p1
 
 %build
-make SHARED="no" ZLIB="no" LIBKMOD=yes STRIP="" OPT="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" PREFIX="/usr" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
+%make_build SHARED="no" ZLIB="no" LIBKMOD=yes STRIP="" OPT="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" PREFIX="/usr" LIBDIR="%{_libdir}" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids"
 mv lib/libpci.a lib/libpci.a.toinstall
 
 make clean
 
-make SHARED="yes" ZLIB="no" LIBKMOD=yes STRIP="" OPT="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" PREFIX="/usr" LIBDIR="/%{_lib}" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids" %{?_smp_mflags}
-
-#fix lib vs. lib64 in libpci.pc (static Makefile is used)
-sed -i "s|^libdir=.*$|libdir=/%{_lib}|" lib/libpci.pc
+%make_build SHARED="yes" ZLIB="no" LIBKMOD=yes STRIP="" OPT="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS" PREFIX="/usr" LIBDIR="%{_libdir}" IDSDIR="/usr/share/hwdata" PCI_IDS="pci.ids"
 
 
 %install
-install -d $RPM_BUILD_ROOT/{sbin,%{_sbindir},%{_lib},%{_mandir}/man{7,8},%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{7,8},%{_libdir},%{_libdir}/pkgconfig,%{_includedir}/pci}
 
-install -p lspci setpci $RPM_BUILD_ROOT/sbin
-install -p update-pciids $RPM_BUILD_ROOT/%{_sbindir}
+install -p lspci setpci update-pciids $RPM_BUILD_ROOT%{_sbindir}
 install -p -m 644 lspci.8 setpci.8 update-pciids.8 $RPM_BUILD_ROOT%{_mandir}/man8
 install -p -m 644 pcilib.7 $RPM_BUILD_ROOT%{_mandir}/man7
-install -p lib/libpci.so.* $RPM_BUILD_ROOT/%{_lib}/
-ln -s ../../%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/*.so.*.*.*) $RPM_BUILD_ROOT%{_libdir}/libpci.so
+install -p lib/libpci.so.* $RPM_BUILD_ROOT%{_libdir}/
+ln -s $(basename $RPM_BUILD_ROOT%{_libdir}/*.so.*.*.*) $RPM_BUILD_ROOT%{_libdir}/libpci.so
 
 mv lib/libpci.a.toinstall lib/libpci.a
 install -p -m 644 lib/libpci.a $RPM_BUILD_ROOT%{_libdir}
-/sbin/ldconfig -N $RPM_BUILD_ROOT/%{_lib}
-install -p lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
-install -p lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
-install -p %{SOURCE1} $RPM_BUILD_ROOT%{_includedir}/pci/config.h
-install -p lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci/config.%{_lib}.h
-install -p lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
-install -p lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
+install -p -m 644 lib/pci.h $RPM_BUILD_ROOT%{_includedir}/pci
+install -p -m 644 lib/header.h $RPM_BUILD_ROOT%{_includedir}/pci
+install -p -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_includedir}/pci/config.h
+install -p -m 644 lib/config.h $RPM_BUILD_ROOT%{_includedir}/pci/config.%{_lib}.h
+install -p -m 644 lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
+install -p -m 644 lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 
 %ldconfig_scriptlets libs
 
 %files
 %doc README ChangeLog pciutils.lsm
-/sbin/lspci
-/sbin/setpci
+%{_sbindir}/lspci
+%{_sbindir}/setpci
 %{_sbindir}/update-pciids
 %{_mandir}/man8/*
 
 %files libs
 %license COPYING
-%defattr(-,root,root,-)
-/%{_lib}/libpci.so.*
+%{_libdir}/libpci.so.*
 
 %files devel-static
 %{_libdir}/libpci.a
