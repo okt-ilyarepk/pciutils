@@ -7,6 +7,7 @@ URL:		https://mj.ucw.cz/sw/pciutils/
 
 Source0:	https://www.kernel.org/pub/software/utils/pciutils/%{name}-%{version}.tar.xz
 Source1:	multilibconfigh
+Source2:	libpci_symbols.lst
 
 #change pci.ids directory to hwdata, fedora/rhel specific
 Patch1:		pciutils-2.2.1-idpath.patch
@@ -79,6 +80,10 @@ install -p -m 644 lib/types.h $RPM_BUILD_ROOT%{_includedir}/pci
 install -p -m 644 lib/libpci.pc $RPM_BUILD_ROOT%{_libdir}/pkgconfig
 
 %ldconfig_scriptlets libs
+
+%check
+nm -gDC $RPM_BUILD_ROOT/%{_libdir}/libpci.so.%{version} | sed -n -e 's/@@/@/g' -e 's/^.* \([^ ]*@LIBPCI_.*\)$/\1/p' | sort | uniq >libpci_symbols_new.lst
+diff -u %{SOURCE2} libpci_symbols_new.lst
 
 %files
 %doc README ChangeLog pciutils.lsm
